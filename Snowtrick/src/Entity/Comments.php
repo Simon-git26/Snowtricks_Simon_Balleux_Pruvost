@@ -20,11 +20,6 @@ class Comments
     /**
      * @ORM\Column(type="integer")
      */
-    private $trick_id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
     private $user_id;
 
     /**
@@ -42,21 +37,15 @@ class Comments
      */
     private $is_actif;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $trick;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTrickId(): ?int
-    {
-        return $this->trick_id;
-    }
-
-    public function setTrickId(int $trick_id): self
-    {
-        $this->trick_id = $trick_id;
-
-        return $this;
     }
 
     public function getUserId(): ?int
@@ -103,6 +92,18 @@ class Comments
     public function setIsActif(bool $is_actif): self
     {
         $this->is_actif = $is_actif;
+
+        return $this;
+    }
+
+    public function getTrick(): ?Tricks
+    {
+        return $this->trick;
+    }
+
+    public function setTrick(?Tricks $trick): self
+    {
+        $this->trick = $trick;
 
         return $this;
     }
