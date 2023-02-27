@@ -35,17 +35,17 @@ class Tricks
     private $trick_groupe_trick;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $tric_image;
+    private $trick_image;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $trick_video;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true, options={"default": "CURRENT_TIMESTAMP"})
      */
     private $trick_date_create;
 
@@ -100,14 +100,14 @@ class Tricks
         return $this;
     }
 
-    public function getTricImage(): ?string
+    public function getTrickImage(): ?string
     {
-        return $this->tric_image;
+        return $this->trick_image;
     }
 
-    public function setTricImage(string $tric_image): self
+    public function setTrickImage(string $trick_image): self
     {
-        $this->tric_image = $tric_image;
+        $this->trick_image = $trick_image;
 
         return $this;
     }
