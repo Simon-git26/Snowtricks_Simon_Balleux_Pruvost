@@ -14,6 +14,12 @@
         {% endblock %}
     </head>
     <body>
+        <!-- Appel de mon header personalise -->
+        {% include 'base/header.html.twig' %}
+
         {% block body %}{% endblock %}
+
+        <!-- Appel de mon footer personalise -->
+        {% include 'base/footer.html.twig' %}
     </body>
 </html>

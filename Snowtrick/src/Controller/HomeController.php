@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 // Appel de mon entity pour pouvoir utiliser ces method
 use App\Entity\Tricks;
+use App\Entity\User;
 
 class HomeController extends AbstractController
 {
@@ -18,6 +19,7 @@ class HomeController extends AbstractController
     {
         //Permet de recuperer mes données en BDD grace a mes method du Repository et de Doctrine ORM
         $tricks = $doctrine->getRepository(Tricks::class)->findAll();
+     
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
