@@ -26,9 +26,6 @@ class AppFixtures extends Fixture
         }
 
         // Comments Fixtures
-        
-
-
         $manager->flush();
     }
 }
