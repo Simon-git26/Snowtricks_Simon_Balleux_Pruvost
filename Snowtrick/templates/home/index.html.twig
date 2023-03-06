@@ -26,6 +26,7 @@
     <ul>
         {% for trick in tricks %}
             <li>{{ trick.getTitle|e }}</li>
+            <li>{{ trick.getDescription|e }}</li>
         {% endfor %}
     </ul>
 </p>
