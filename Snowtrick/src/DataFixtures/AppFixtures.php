@@ -17,11 +17,11 @@ class AppFixtures extends Fixture
         for ($i = 1; $i <= 5; $i++) {
             // Instanciations de ma class Trick
             $tricks = new Tricks();
-            $tricks->setTrickTitle('Trick '.$i);
-            $tricks->setTrickDescription('Description du trick '.$i);
-            $tricks->setTrickGroupeTrick('Groupe '.$i);
+            $tricks->setTitle('Trick '.$i);
+            $tricks->setDescription('Description du trick '.$i);
+            $tricks->setGroupe('Groupe '.$i);
             // Object DatetimeInterface et valeur par defaut definit en tant que CURRENT_TIMESTAMP dans mon entité
-            $tricks->setTrickDateCreate(new \DateTime);
+            $tricks->setDateCreate(new \DateTime);
             $manager->persist($tricks);
         }
 

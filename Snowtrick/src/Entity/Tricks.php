@@ -22,32 +22,32 @@ class Tricks
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $trick_title;
+    private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $trick_description;
+    private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $trick_groupe_trick;
+    private $groupe;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $trick_image;
+    private $image;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $trick_video;
+    private $video;
 
     /**
      * @ORM\Column(type="datetime", nullable=true, options={"default": "CURRENT_TIMESTAMP"})
      */
-    private $trick_date_create;
+    private $dateCreate;
 
     /**
      * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="trick_id")
@@ -64,74 +64,74 @@ class Tricks
         return $this->id;
     }
 
-    public function getTrickTitle(): ?string
+    public function getTitle(): ?string
     {
-        return $this->trick_title;
+        return $this->title;
     }
 
-    public function setTrickTitle(string $trick_title): self
+    public function setTitle(string $title): self
     {
-        $this->trick_title = $trick_title;
+        $this->title = $title;
 
         return $this;
     }
 
-    public function getTrickDescription(): ?string
+    public function getDescription(): ?string
     {
-        return $this->trick_description;
+        return $this->description;
     }
 
-    public function setTrickDescription(string $trick_description): self
+    public function setDescription(string $description): self
     {
-        $this->trick_description = $trick_description;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getTrickGroupeTrick(): ?string
+    public function getGroupe(): ?string
     {
-        return $this->trick_groupe_trick;
+        return $this->groupe;
     }
 
-    public function setTrickGroupeTrick(string $trick_groupe_trick): self
+    public function setGroupe(string $groupe): self
     {
-        $this->trick_groupe_trick = $trick_groupe_trick;
+        $this->groupe = $groupe;
 
         return $this;
     }
 
-    public function getTrickImage(): ?string
+    public function getImage(): ?string
     {
-        return $this->trick_image;
+        return $this->image;
     }
 
-    public function setTrickImage(string $trick_image): self
+    public function setImage(string $image): self
     {
-        $this->trick_image = $trick_image;
+        $this->image = $image;
 
         return $this;
     }
 
-    public function getTrickVideo(): ?string
+    public function getVideo(): ?string
     {
-        return $this->trick_video;
+        return $this->video;
     }
 
-    public function setTrickVideo(string $trick_video): self
+    public function setVideo(string $video): self
     {
-        $this->trick_video = $trick_video;
+        $this->video = $video;
 
         return $this;
     }
 
-    public function getTrickDateCreate(): ?\DateTimeInterface
+    public function getDateCreate(): ?\DateTimeInterface
     {
-        return $this->trick_date_create;
+        return $this->dateCreate;
     }
 
-    public function setTrickDateCreate(\DateTimeInterface $trick_date_create): self
+    public function setDateCreate(\DateTimeInterface $dateCreate): self
     {
-        $this->trick_date_create = $trick_date_create;
+        $this->dateCreate = $dateCreate;
 
         return $this;
     }

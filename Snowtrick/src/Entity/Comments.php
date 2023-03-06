@@ -20,17 +20,17 @@ class Comments
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $comment_content;
+    private $content;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $comment_date_create;
+    private $dateCreate;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $is_actif;
+    private $isActif;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="comments")
@@ -49,38 +49,38 @@ class Comments
         return $this->id;
     }
 
-    public function getCommentContent(): ?string
+    public function getContent(): ?string
     {
-        return $this->comment_content;
+        return $this->content;
     }
 
-    public function setCommentContent(string $comment_content): self
+    public function setContent(string $content): self
     {
-        $this->comment_content = $comment_content;
+        $this->content = $content;
 
         return $this;
     }
 
-    public function getCommentDateCreate(): ?\DateTimeInterface
+    public function getDateCreate(): ?\DateTimeInterface
     {
-        return $this->comment_date_create;
+        return $this->dateCreate;
     }
 
-    public function setCommentDateCreate(\DateTimeInterface $comment_date_create): self
+    public function setDateCreate(\DateTimeInterface $dateCreate): self
     {
-        $this->comment_date_create = $comment_date_create;
+        $this->dateCreate = $dateCreate;
 
         return $this;
     }
 
     public function isIsActif(): ?bool
     {
-        return $this->is_actif;
+        return $this->isActif;
     }
 
-    public function setIsActif(bool $is_actif): self
+    public function setIsActif(bool $isActif): self
     {
-        $this->is_actif = $is_actif;
+        $this->isActif = $isActif;
 
         return $this;
     }
