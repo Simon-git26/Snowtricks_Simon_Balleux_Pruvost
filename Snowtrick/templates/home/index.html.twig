@@ -7,7 +7,7 @@
 <h1>Ma Homepage</h1>
 
 <!-- Recuperer les infos de mon user grace aux variables d'environement de Twig (app.)-->
-<p>Bienvenu : {{ app.user.username ?? 'Anonymous user' }}</p>
+<p>Bienvenu : {{ app.user.username ?? 'utilisateur non connecté' }}</p>
 
 <!-- fonction dump() utilisé grace au bundle vardumper -->
 <p>{{ dump(app.user) }}</p>

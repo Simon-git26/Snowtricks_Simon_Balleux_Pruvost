@@ -1,25 +1,75 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        <!-- Appel de mon header personalise -->
-        {% include 'base/header.html.twig' %}
+    <title>{% block title %}Wine List{% endblock %}</title>
+    {% block stylesheets %}
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      #backgroundimage
+      {
+          height: auto;
+          left: 0;
+          margin: 0;
+          min-height: 100%;
+          min-width: 674px;
+          padding: 0;
+          position: fixed;
+          top: 0;
+          width: 100%;
+          z-index: -1;
+      }
+    </style>
+    <!-- Le styles -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="shortcut icon" href="{{ asset('ico/favicon.png') }}">
+    {% endblock %}
+  </head>
 
-        {% block body %}{% endblock %}
+  <body>
+    <!-- Appel de mon header personalise -->
+    {% include 'base/header.html.twig' %}
+    
+    {% block body %}
+        <div class="container-fluid">
+          {% block container %}
+          <h1>Wine List</h1>
+          <div class="btn-group" role="group" aria-label="Basic example">
+              {% block buttons %}
+                      <a href="/list" class="btn btn-primary btn-large">List</a>
+                      <a href="/about" class="btn btn-primary btn-large">About</a>
+                      <a href="/" class="btn btn-primary btn-large">Home</a>
+              {% endblock %}
+          </div>
 
-        <!-- Appel de mon footer personalise -->
-        {% include 'base/footer.html.twig' %}
-    </body>
+          <div id="content">
+              {% block content %}
+              {% endblock %}
+          </div>
+          {% endblock %}
+        </div>
+    {% endblock %}
+
+
+
+      <!-- Appel de mon footer personalise -->
+      {% include 'base/footer.html.twig' %}
+
+
+
+      {% block javascript %}
+      <!-- Le javascript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+      {% endblock %}
+  </body>
 </html>
