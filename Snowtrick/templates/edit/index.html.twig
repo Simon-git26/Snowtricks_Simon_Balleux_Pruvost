@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EditController{% endblock %}
+
+{% block body %}
+
+<h1>Edit Trick</h1>
+
+<!-- fonction dump() utilisé grace au bundle vardumper -->
+<p>{{ dump(app.user) }}</p>
+
+
+<!-- Affichage de ma liste de Tricks -->
+<ul>
+    {% if trick %}
+        <!-- Passer le titre en lien vers la page details du trick à terme -->
+        <li>{{ trick.getTitle|e }}</li>
+    {% endif %}
+</ul>
+
+
+{% endblock %}

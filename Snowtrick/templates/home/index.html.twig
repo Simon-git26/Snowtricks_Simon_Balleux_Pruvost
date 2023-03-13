@@ -13,9 +13,17 @@
 <p>{{ dump(app.user) }}</p>
 
 
+<!-- Affichage de ma liste de Tricks -->
 <ul>
     {% for trick in tricks %}
+        <!-- Passer le titre en lien vers la page details du trick à terme -->
         <li>{{ trick.getTitle|e }}</li>
+        <!-- Affichage du stylo si connecté -->
+        {% if app.user %}
+            <li><a href="/edit/{{trick.id}}"><i class="fa-solid fa-pen"></i></a></li>
+            <input type="hidden" value={{trick.id}}/>
+        {% endif %}
+        <!-- Description Trick -->
         <li>{{ trick.getDescription|e }}</li>
     {% endfor %}
 </ul>
