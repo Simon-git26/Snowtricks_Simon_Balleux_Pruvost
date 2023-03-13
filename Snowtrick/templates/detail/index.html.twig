@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DetailController!{% endblock %}
+
+{% block body %}
+
+<h1>Detail Trick</h1>
+
+<!-- fonction dump() utilisé grace au bundle vardumper -->
+<p>{{ dump(app.user) }}</p>
+
+
+<!-- Affichage de ma liste de Tricks -->
+<ul>
+    {% if trick %}
+        <!-- Passer le titre en lien vers la page details du trick à terme -->
+        <li>{{ trick.getTitle|e }}</li>
+        <!-- Description Trick -->
+        <li>{{ trick.getDescription|e }}</li>
+        <!-- Groupe Trick -->
+        <li>{{ trick.groupe|e }}</li>
+        <!-- Image Trick -->
+        <li>{{ trick.image|e }}</li>
+        <!-- Video Trick -->
+        <li>{{ trick.video|e }}</li>
+        <!-- Date Trick -->
+        <li>{{ trick.dateCreate|date("m/d/Y") }}</li>
+
+    {% endif %}
+</ul>
+
+
+{% endblock %}

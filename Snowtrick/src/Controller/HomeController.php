@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 // Appel de mon entity pour pouvoir utiliser ces method
 use App\Entity\Tricks;
-use App\Entity\User;
 
 class HomeController extends AbstractController
 {
