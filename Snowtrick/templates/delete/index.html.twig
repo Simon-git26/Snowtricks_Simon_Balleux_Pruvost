@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DeleteController!{% endblock %}
+
+{% block body %}
+
+<h1>Delete Trick</h1>
+
+<!-- fonction dump() utilisé grace au bundle vardumper -->
+<p>{{ dump(app.user) }}</p>
+
+
+<!-- Affichage de ma liste de Tricks -->
+<ul>
+    {% if trick %}
+        <!-- Passer le titre en lien vers la page details du trick à terme -->
+        <li>{{ trick.getTitle|e }}</li>
+        <li><p>Je suis sur la page de delete trick</p></li>
+    {% endif %}
+</ul>
+
+
+{% endblock %}
