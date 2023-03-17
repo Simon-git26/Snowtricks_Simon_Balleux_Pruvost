@@ -8,10 +8,31 @@
 
 <!-- fonction dump() utilisé grace au bundle vardumper -->
 <p>{{ dump(app.user) }}</p>
+<!-- Affichage de ma variable comments -->
+<p>{{ dump(comments) }}</p>
+
 
 
 <!-- Affichage de ma liste de Tricks -->
 <ul>
+    <!-- Si User connecté, creation de commentaire possible avec formulaire -->
+    {% if app.user %}
+        <form action="" method="post" class="form-example">
+            <div style="display:flex;">
+                <label for="content">Entrer votre commentaire</label>
+                <input type="text" name="content" id="content" required/>
+
+                <input type="hidden" value={{app.user.username}}/>
+                <input type="hidden" value={{app.user.firstname}}/>
+                <input type="hidden" value={{app.user.id}}/>
+            
+                <input type="submit" value="Envoyer">
+            </div>
+        </form>
+    {% endif %}
+
+
+    <!-- Detail du trick-->
     {% if trick %}
         <!-- Passer le titre en lien vers la page details du trick à terme -->
         <li>{{ trick.getTitle|e }}</li>
@@ -25,8 +46,28 @@
         <li>{{ trick.video|e }}</li>
         <!-- Date Trick -->
         <li>{{ trick.dateCreate|date("m/d/Y") }}</li>
-
     {% endif %}
+
+
+
+    <!-- Recuperation de ma variable comments, affichage de chaque commentaire -->
+    <div style="margin-top:3rem;">
+        <h1>Espace de discussion</h1>
+        {% if comments %}
+            {% for comment in comments %}
+
+                <p>{{ dump(comment) }}</p>
+
+                <div style="display:flex;">
+                    <li>
+                        <p>Commentaire créer par {{ comment.getUser.username|e }} {{ comment.getUser.firstname|e }}, le {{ comment.getDateCreate|date("m/d/Y") }}</p>
+                        <p>{{ comment.getContent|e }}</p>
+                    </li>
+                </div>
+                
+            {% endfor %}
+        {% endif %}
+    </div>
 </ul>
 
 

@@ -25,17 +25,19 @@ class AppFixtures extends Fixture
             $manager->persist($tricks);
         }
 
+        /*
         // Comments Fixtures
         for ($i = 1; $i <= 5; $i++) {
             // Instanciations de ma class Trick
             $comments = new Comments();
+            $comments->setTrick();
             $comments->setContent('Commentaire '.$i);
             $comments->setDateCreate(new \DateTime);
             $comments->setIsActif(1);
             $manager->persist($comments);
         }
+        */
 
-        // Comments Fixtures
         $manager->flush();
     }
 }
