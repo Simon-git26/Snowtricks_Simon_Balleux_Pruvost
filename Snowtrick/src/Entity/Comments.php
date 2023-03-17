@@ -23,7 +23,7 @@ class Comments
     private $content;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true, options={"default": "CURRENT_TIMESTAMP"})
      */
     private $dateCreate;
 
@@ -33,7 +33,7 @@ class Comments
     private $isActif;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="comments", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;

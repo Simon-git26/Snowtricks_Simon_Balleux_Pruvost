@@ -18,6 +18,7 @@ class DetailController extends AbstractController
      */
     public function index(ManagerRegistry $doctrine, int $id): Response
     {
+        // Recuperer mon trick selon son id
         $trick = $doctrine->getRepository(Tricks::class)->find($id);
 
         // Récuperer tous les commentaires ou trick_id correspond à l'id du trick en question sur la page detail
