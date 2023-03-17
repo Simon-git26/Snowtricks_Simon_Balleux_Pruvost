@@ -21,11 +21,13 @@
         <input type="hidden" value={{trick.id}}/>
         <!-- Affichage du stylo si connecté -->
         {% if app.user %}
-            <li><a href="/edit/{{trick.id}}"><i class="fa-solid fa-pen"></i></a></li>
-            <input type="hidden" value={{trick.id}}/>
+            <div style="display:flex;">
+                <a href="/edit/{{trick.id}}"><i class="fa-solid fa-pen"></i></a>
+                <input type="hidden" value={{trick.id}}/>
 
-            <li><a href="/delete/{{trick.id}}"><i class="fa-solid fa-trash-can"></i></a></li>
-            <input type="hidden" value={{trick.id}}/>
+                <a href="/delete/{{trick.id}}"><i class="fa-solid fa-trash-can"></i></a>
+                <input type="hidden" value={{trick.id}}/>
+            </div>
         {% endif %}
         <!-- Description Trick -->
         <li>{{ trick.getDescription|e }}</li>
