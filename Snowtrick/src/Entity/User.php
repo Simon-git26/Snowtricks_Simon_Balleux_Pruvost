@@ -60,6 +60,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $comments;
 
     /**
+     * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="trick_id")
+     */
+    private $tricks;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
@@ -67,6 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->tricks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +217,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
+
+
+    /**
+     * @return Collection<int, Tricks>
+     */
+    public function getTricks(): Collection
+    {
+        return $this->tricks;
+    }
+
+    public function addTrick(Tricks $trick): self
+    {
+        if (!$this->tricks->contains($trick)) {
+            $this->tricks[] = $trick;
+            $trick->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrick(Tricks $trick): self
+    {
+        if ($this->tricks->removeElement($trick)) {
+            // set the owning side to null (unless already changed)
+            if ($trick->getUser() === $this) {
+                $trick->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
 
     public function isVerified(): bool
     {
