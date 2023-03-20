@@ -10,11 +10,15 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
+// Hachage de mes passwords
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 2; $i++) {
             // Instanciations de ma class Trick
             $users = new User();
             $users->setUsername('Simon'.$i);
@@ -33,7 +37,7 @@ class AppFixtures extends Fixture
 
     private function setTricks(User $user, ObjectManager $manager) {
         // Tricks Fixtures
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             // Instanciations de ma class Trick
             $tricks = new Tricks();
             $tricks->setUser($user);
@@ -49,7 +53,7 @@ class AppFixtures extends Fixture
 
     private function setComments(User $user, Tricks $trick, ObjectManager $manager) {
         // Comments Fixtures
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 2; $i++) {
             // Instanciations de ma class Trick
             $comments = new Comments();
             $comments->setUser($user);

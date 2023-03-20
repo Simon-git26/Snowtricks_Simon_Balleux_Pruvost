@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CommentsRepository;
 use Doctrine\ORM\Mapping as ORM;
+// validation
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CommentsRepository::class)
@@ -19,6 +21,7 @@ class Comments
 
     /**
      * @ORM\Column(type="string", length=255)
+     * #[Assert\NotBlank]
      */
     private $content;
 
@@ -28,7 +31,7 @@ class Comments
     private $dateCreate;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true, options={"default": 1})
      */
     private $isActif;
 

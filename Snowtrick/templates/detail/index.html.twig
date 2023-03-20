@@ -9,7 +9,7 @@
 <!-- fonction dump() utilisé grace au bundle vardumper -->
 <p>{{ dump(app.user) }}</p>
 <!-- Affichage de ma variable comments -->
-<p>{{ dump(comments) }}</p>
+<!--<p>{{ dump(comments) }}</p>-->
 
 
 
@@ -17,23 +17,14 @@
 <ul>
     <!-- Si User connecté, creation de commentaire possible avec formulaire -->
     {% if app.user %}
-        <form action="" method="post" class="form-example">
-            <div style="display:flex;">
-                <label for="content">Entrer votre commentaire</label>
-                <input type="text" name="content" id="content" required/>
-
-                <input type="hidden" value={{app.user.username}}/>
-                <input type="hidden" value={{app.user.firstname}}/>
-                <input type="hidden" value={{app.user.id}}/>
-            
-                <input type="submit" value="Envoyer">
-            </div>
-        </form>
+        <h3>Créer votre commentaire</h3>
+        {{ form(comment_form) }}
     {% endif %}
 
 
     <!-- Detail du trick-->
     {% if trick %}
+        <h2>Detail du trick</h2>
         <!-- Passer le titre en lien vers la page details du trick à terme -->
         <li>{{ trick.getTitle|e }}</li>
         <!-- Description Trick -->
