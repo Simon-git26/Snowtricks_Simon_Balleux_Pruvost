@@ -15,7 +15,11 @@
     {% if trick %}
         <!-- Passer le titre en lien vers la page details du trick à terme -->
         <li>{{ trick.getTitle|e }}</li>
-        <li><p>Je suis sur la page de delete trick</p></li>
+    {% endif %}
+
+
+    {% if app.user %}
+        {{ form(delete_trick) }}
     {% endif %}
 </ul>
 

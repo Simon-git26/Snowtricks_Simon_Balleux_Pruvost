@@ -51,6 +51,7 @@ class Tricks
 
     /**
      * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="trick_id")
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $comments;
 

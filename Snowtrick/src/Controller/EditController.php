@@ -9,21 +9,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 // Appel de mon entity pour pouvoir utiliser ces method
 use App\Entity\Tricks;
-// Transmission de mon formulaire cedit
-use App\Form\EditFormType;
 // Soumission du formulaire et persistance des données dans la BDD
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-
-
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 // Personalisation de mon formulaire
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+
 
 
 class EditController extends AbstractController
