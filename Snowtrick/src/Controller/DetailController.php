@@ -74,7 +74,7 @@ class DetailController extends AbstractController
             $this->entityManager->flush();
 
             // Changer la route plus tard pour /detail/{id}
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_home');
         }
 
 

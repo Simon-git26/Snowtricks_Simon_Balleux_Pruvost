@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,15 +9,14 @@ use Twig\Environment;
 // Appel de mon entity pour pouvoir utiliser ces method
 use App\Entity\Tricks;
 // Transmission de mon formulaire cedit
-use App\Form\EditFormType;
+use App\Form\CreateFormType;
 // Soumission du formulaire et persistance des données dans la BDD
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-
-
-class EditController extends AbstractController
+class CreateController extends AbstractController
 {
+
     private $twig;
     private $entityManager;
 
@@ -28,15 +26,16 @@ class EditController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="app_edit")
+     * @Route("/create", name="app_create")
      */
-    public function index(ManagerRegistry $doctrine, int $id, Request $request): Response
+
+     public function index(Request $request): Response
     {
 
         // Mon formulaire de modification de trick
-        $editForm = new Tricks();
+        $createForm = new Tricks();
 
-        $form = $this->createForm(EditFormType::class, $editForm);
+        $form = $this->createForm(CreateFormType::class, $createForm);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -45,17 +44,16 @@ class EditController extends AbstractController
             $date= new \DateTime;
             $dateCreate = $form->get('date_create')->getData();
             $dateCreate = $date;
-            $editForm->setDateCreate($dateCreate);
+            $createForm->setDateCreate($dateCreate);
 
             // Récupérer l'id du user connecté et l'attribuer au champs user du form
             $userConnected = $this->getUser();
             $idUser = $form->get('user')->getData();
             $idUser = $userConnected;
-            $editForm->setUser($idUser);
+            $createForm->setUser($idUser);
 
 
-
-            $this->entityManager->persist($editForm);
+            $this->entityManager->persist($createForm);
             $this->entityManager->flush();
 
             // Changer la route plus tard pour /detail/{id}
@@ -63,22 +61,9 @@ class EditController extends AbstractController
         }
 
 
-
-
-
-        //Permet de recuperer mes données en BDD grace a mes method du Repository et de Doctrine ORM
-        $trick = $doctrine->getRepository(Tricks::class)->find($id);
-
-        if (!$trick) {
-            echo "Aucun Trick n'a était récupéré";
-            die();
-        }
-
-        return $this->render('edit/index.html.twig', [
-            'controller_name' => 'EditController',
-            'trick' => $trick,
-            'edit_form' => $form->createView()
+        return $this->render('create/index.html.twig', [
+            'controller_name' => 'CreateController',
+            'create_form' => $form->createView()
         ]);
     }
-
 }

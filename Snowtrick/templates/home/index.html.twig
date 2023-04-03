@@ -15,12 +15,20 @@
 
 <!-- Affichage de ma liste de Tricks -->
 <ul>
+    <!-- Creation Trick si user connecté -->
+    {% if app.user %}
+        <a href="/create">Créer votre Figure</a>
+    {% endif %}
+
+
+    <!-- Liste de trick existant -->
     {% for trick in tricks %}
         <!-- Passer le titre en lien vers la page details du trick à terme -->
         <li><a href="/detail/{{trick.id}}">{{ trick.getTitle|e }}</a></li>
         <input type="hidden" value={{trick.id}}/>
         <!-- Affichage du stylo si connecté -->
         {% if app.user %}
+
             <div style="display:flex;">
                 <a href="/edit/{{trick.id}}"><i class="fa-solid fa-pen"></i></a>
                 <input type="hidden" value={{trick.id}}/>
