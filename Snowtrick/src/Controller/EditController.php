@@ -17,6 +17,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 
 
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+// Personalisation de mon formulaire
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+
+
 class EditController extends AbstractController
 {
     private $twig;
@@ -34,49 +43,43 @@ class EditController extends AbstractController
     {
 
         // Mon formulaire de modification de trick
-        $editForm = new Tricks();
+        $editForm = $doctrine->getRepository(Tricks::class)->find($id);
 
-        $form = $this->createForm(EditFormType::class, $editForm);
+        $form = $this->createFormBuilder($editForm)
+        ->add('title')
+        ->add('description')
+        ->add('groupe')
+        ->add('image')
+        ->add('video')
+        // Bouton submit
+        ->add('submit', SubmitType::class)
+        ->getForm();
+
+
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            // Attribué la date de la creation à mon champ date_create
+            // Attribué une valeur Datetime a mon champs date
             $date= new \DateTime;
-            $dateCreate = $form->get('date_create')->getData();
-            $dateCreate = $date;
-            $editForm->setDateCreate($dateCreate);
+            $editForm->setDateCreate($date);
 
-            // Récupérer l'id du user connecté et l'attribuer au champs user du form
+            // Récupérer l'id du user connecté et l'attribuer au champs user
             $userConnected = $this->getUser();
-            $idUser = $form->get('user')->getData();
-            $idUser = $userConnected;
-            $editForm->setUser($idUser);
-
+            $editForm->setUser($userConnected);
 
 
             $this->entityManager->persist($editForm);
             $this->entityManager->flush();
+            
 
             // Changer la route plus tard pour /detail/{id}
             return $this->redirectToRoute('app_home');
         }
 
 
-
-
-
-        //Permet de recuperer mes données en BDD grace a mes method du Repository et de Doctrine ORM
-        $trick = $doctrine->getRepository(Tricks::class)->find($id);
-
-        if (!$trick) {
-            echo "Aucun Trick n'a était récupéré";
-            die();
-        }
-
         return $this->render('edit/index.html.twig', [
             'controller_name' => 'EditController',
-            'trick' => $trick,
             'edit_form' => $form->createView()
         ]);
     }

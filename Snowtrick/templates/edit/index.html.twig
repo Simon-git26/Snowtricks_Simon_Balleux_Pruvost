@@ -8,8 +8,7 @@
 
 <!-- fonction dump() utilisé grace au bundle vardumper -->
 <p>{{ dump(app.user) }}</p>
-
-
+<p>{{ dump(edit_form) }}</p>
 
 
 
@@ -19,12 +18,6 @@
     {% if app.user %}
         <h3>Modifier la Figure</h3>
         {{ form(edit_form) }}
-    {% endif %}
-
-
-    {% if trick %}
-        <!-- Passer le titre en lien vers la page details du trick à terme -->
-        <li>{{ trick.getTitle|e }}</li>
     {% endif %}
 </ul>
 
