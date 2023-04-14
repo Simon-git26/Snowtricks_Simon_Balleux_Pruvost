@@ -14,6 +14,9 @@ use App\Form\CreateFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 class CreateController extends AbstractController
 {
 
@@ -29,7 +32,7 @@ class CreateController extends AbstractController
      * @Route("/create", name="app_create")
      */
 
-     public function index(Request $request): Response
+     public function index(Request $request, SluggerInterface $slugger): Response
     {
 
         // Mon formulaire de modification de trick
@@ -51,6 +54,34 @@ class CreateController extends AbstractController
             $idUser = $form->get('user')->getData();
             $idUser = $userConnected;
             $createForm->setUser($idUser);
+
+
+            /*
+            // Image uploader
+            $imageFile = $form->get('image')->getData();
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $imageFile->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $createForm->setImage($newFilename);
+            }
+            */
 
 
             $this->entityManager->persist($createForm);
