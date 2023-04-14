@@ -13,12 +13,16 @@
         <label for="username">Email:</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}"/>
 
-        <label for="password">Password:</label>
+        <label for="password">Mot de Passe:</label>
         <input type="password" id="password" name="_password"/>
 
         {# Si je veux rediriger sur une page souhaité, j'active le hidden #}
         <input type="hidden" name="_target_path" value="/"/>
 
-        <button type="submit">login</button>
+        <button type="submit">Connexion</button>
     </form>
+
+    <!-- Lien Mot de passe oublié -->
+    <a href="/reset-password">Mot de passe oublié ?</a>
+
 {% endblock %}
