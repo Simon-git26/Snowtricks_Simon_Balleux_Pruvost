@@ -15,6 +15,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
@@ -27,13 +30,42 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Image uploader //
+            /* Recuperer ma propriete image */
+            $imageFile = $form->get('image_path')->getData();
+
+            if ($imageFile) {
+                // Créer un nom pour le fichier
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // Une fois le servide slugger injecté en debut de fonction, on peut s'en servir
+                $safeFilename = $slugger->slug($originalFilename);
+                // Recuperer le nouveau filename qu'il vient de créer, avec son id et son extension
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    // Stocke le fichier au niveau du dossier selectionné ici
+                    $imageFile->move(
+                        $this->getParameter('image_profil_user'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $user->setImagePath($newFilename);
+            }
+
+            
             // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
@@ -41,6 +73,8 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+
 
             $entityManager->persist($user);
             $entityManager->flush();

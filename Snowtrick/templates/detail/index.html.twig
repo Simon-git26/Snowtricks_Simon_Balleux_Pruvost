@@ -9,7 +9,7 @@
 <!-- fonction dump() utilisé grace au bundle vardumper -->
 <p>{{ dump(app.user) }}</p>
 <!-- Affichage de ma variable comments -->
-<!--<p>{{ dump(comments) }}</p>-->
+<p>{{ dump(comments) }}</p>
 
 
 
@@ -61,6 +61,8 @@
                         {% endif %}
                         
                         <p>Commentaire créer par {{ comment.getUser.username|e }} {{ comment.getUser.firstname|e }}, le {{ comment.getDateCreate|date("m/d/Y") }}</p>
+                        <!-- Image User-->
+                        <img src="{{ asset('uploads/image_profil_user/') }}{{ comment.getUser.imagePath|e }}" alt="">
                         <p>{{ comment.getContent|e }}</p>
                     </li>
                 </div>

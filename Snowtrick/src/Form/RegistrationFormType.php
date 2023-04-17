@@ -11,6 +11,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+// Image
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class RegistrationFormType extends AbstractType
 {
@@ -20,6 +23,27 @@ class RegistrationFormType extends AbstractType
             ->add('email')
             ->add('username')
             ->add('firstname')
+
+            // Ajouter un dl d'image
+            ->add('image_path', FileType::class, [
+                'label' => 'Image de Profil',
+                'mapped' => false,
+                'required' => false,
+                'data_class' => null,
+
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image',
+                    ])
+                ]
+            ])
+
+
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -28,6 +52,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
