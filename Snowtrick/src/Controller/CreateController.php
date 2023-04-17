@@ -56,21 +56,23 @@ class CreateController extends AbstractController
             $createForm->setUser($idUser);
 
 
-            /*
-            // Image uploader
+            
+            // Image uploader //
+            /* Recuperer ma propriete image */
             $imageFile = $form->get('image')->getData();
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
+
             if ($imageFile) {
+                // Créer un nom pour le fichier
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
+                // Une fois le servide slugger injecté en debut de fonction, on peut s'en servir
                 $safeFilename = $slugger->slug($originalFilename);
+                // Recuperer le nouveau filename qu'il vient de créer, avec son id et son extension
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
 
-                // Move the file to the directory where brochures are stored
                 try {
+                    // Stocke le fichier au niveau du dossier selectionné ici
                     $imageFile->move(
-                        $this->getParameter('brochures_directory'),
+                        $this->getParameter('image_user'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -81,8 +83,8 @@ class CreateController extends AbstractController
                 // instead of its contents
                 $createForm->setImage($newFilename);
             }
-            */
-
+            
+            
 
             $this->entityManager->persist($createForm);
             $this->entityManager->flush();

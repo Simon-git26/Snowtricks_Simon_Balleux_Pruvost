@@ -6,12 +6,12 @@ use App\Entity\Tricks;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 
 // Personalisation de mon formulaire
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CreateFormType extends AbstractType
 {
@@ -46,10 +46,10 @@ class CreateFormType extends AbstractType
             ->add('video')
             */
 
-            /*
+            
             // Ajouter un dl d'image
             ->add('image', FileType::class, [
-                'label' => 'Image',
+                'label' => 'image',
                 'mapped' => false,
                 'required' => false,
                 'data_class' => null,
@@ -61,11 +61,11 @@ class CreateFormType extends AbstractType
                             'image/png',
                             'image/jpg',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid document',
+                        'mimeTypesMessage' => 'Please upload a valid image',
                     ])
                 ]
             ])
-            */
+            
 
             // Bouton submit
             ->add('submit', SubmitType::class)

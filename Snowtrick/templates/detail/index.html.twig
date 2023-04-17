@@ -32,7 +32,10 @@
         <!-- Groupe Trick -->
         <li>{{ trick.groupe|e }}</li>
         <!-- Image Trick -->
-        <li>{{ trick.image|e }}</li>
+        <li><img src="{{ asset('uploads/image_user/') }}{{ trick.image|e }}" alt=""></li>
+        
+        
+        
         <!-- Video Trick -->
         <li>{{ trick.video|e }}</li>
         <!-- Date Trick -->
