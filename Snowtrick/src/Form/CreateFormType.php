@@ -37,15 +37,6 @@ class CreateFormType extends AbstractType
             // Type hidden date
             ->add('date_create', HiddenType::class)
 
-            /*
-            // Type hidden trick id
-            ->add('id', HiddenType::class)
-            */
-
-            /*
-            ->add('video')
-            */
-
             
             // Ajouter un dl d'image
             ->add('image', FileType::class, [
@@ -64,6 +55,12 @@ class CreateFormType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid image',
                     ])
                 ]
+            ])
+
+
+            /* video*/
+            ->add('video', null, [
+                'label' => 'video',
             ])
             
 

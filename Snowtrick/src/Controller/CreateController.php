@@ -83,8 +83,7 @@ class CreateController extends AbstractController
                 // instead of its contents
                 $createForm->setImage($newFilename);
             }
-            
-            
+
 
             $this->entityManager->persist($createForm);
             $this->entityManager->flush();

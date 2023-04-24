@@ -33,11 +33,8 @@
         <li>{{ trick.groupe|e }}</li>
         <!-- Image Trick -->
         <li><img src="{{ asset('uploads/image_user/') }}{{ trick.image|e }}" alt=""></li>
-        
-        
-        
         <!-- Video Trick -->
-        <li>{{ trick.video|e }}</li>
+        <iframe width="560" height="315" src="{{ trick.video|e }}"></iframe>
         <!-- Date Trick -->
         <li>{{ trick.dateCreate|date("m/d/Y") }}</li>
     {% endif %}
