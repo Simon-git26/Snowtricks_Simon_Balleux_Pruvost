@@ -60,7 +60,7 @@ class CreateFormType extends AbstractType
 
             /* video*/
             ->add('video', null, [
-                'label' => 'video',
+                'label' => 'Url de la vidéo',
             ])
             
 
