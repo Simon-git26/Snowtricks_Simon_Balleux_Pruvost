@@ -3,24 +3,73 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+    <style type="text/css">
+      body {
+        vertical-align: middle;
+        border-style: none;
+        background-image: url({{ asset('css_login/images/bg.jpg') }});
+      }
+    </style>
+
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
+    <section class="ftco-section">
+        <div class="container">
 
-    <p>{{ dump(registrationForm) }}</p>
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section">Register</h2>
+                </div>
+            </div>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.image_path) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="login-wrap p-0">
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                        <!-- Formulaire -->
+                        {{ form_start(registrationForm) }}
+                            <!-- Email -->
+                            <div class="form-group">
+                                {{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_row(registrationForm.username, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            
+                            <div class="form-group">
+                                {{ form_row(registrationForm.firstname, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_row(registrationForm.image_path) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_row(registrationForm.agreeTerms) }}
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary submit px-3" style="color: #fff !important;">Register</button>
+                            </div>
+                            
+                            
+                        {{ form_end(registrationForm) }}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('js/popper.js') }}"></script>
+	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('js/main.js') }}"></script>
 {% endblock %}

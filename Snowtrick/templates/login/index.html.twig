@@ -1,26 +1,73 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block body %}
+    <style type="text/css">
+      body {
+        vertical-align: middle;
+        border-style: none;
+        background-image: url({{ asset('css_login/images/bg.jpg') }});
+      }
+    </style>
+
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+    <section class="ftco-section">
+        <div class="container">
 
-        <label for="password">Mot de Passe:</label>
-        <input type="password" id="password" name="_password"/>
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section">Login</h2>
+                </div>
+            </div>
 
-        {# Si je veux rediriger sur une page souhaité, j'active le hidden #}
-        <input type="hidden" name="_target_path" value="/"/>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="login-wrap p-0">
 
-        <button type="submit">Connexion</button>
-    </form>
+                        <!-- Formulaire -->
+                        <form action="{{ path('app_login') }}" method="post" class="signin-form">
 
-    <!-- Lien Mot de passe oublié -->
-    <a href="/reset-password">Mot de passe oublié ?</a>
+                            <!-- Email -->
+                            <div class="form-group">
+                                <label for="username" class="d-flex justify-content-center">Email</label>
+                                <input type="text" class="form-control" placeholder="Votre Email..." id="username" name="_username" value="{{ last_username }}" required/>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-group">
+                                <label for="password" class="d-flex justify-content-center">Mot de Passe</label>
+                                <input type="password" class="form-control" placeholder="Mot de Passe..." id="password" name="_password" required/>
+                            </div>
+
+
+                            <!-- Lien Mot de passe oublié -->
+                            <div class="form-group d-md-flex justify-content-center">
+                                <div class="w-50 text-md-right">
+                                    <a href="/reset-password" style="color: #fff;">Mot de passe oublié ?</a>
+                                </div>
+                            </div>
+
+
+                            <!-- Submit Button-->
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary submit px-3" style="color: #fff !important;">Connexion</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('js/popper.js') }}"></script>
+	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('js/main.js') }}"></script>
 
 {% endblock %}
