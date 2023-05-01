@@ -3,10 +3,44 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-    <h1>Réinitialiser votre Mot de Passe</h1>
+    <style type="text/css">
+      body {
+        vertical-align: middle;
+        border-style: none;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.5)), url({{ asset('css_login/images/bg.jpg') }});
+      }
+    </style>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Réinitialiser votre Mot de Passe</button>
-    {{ form_end(resetForm) }}
+    <section class="ftco-section">
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section">Réinitialiser le Mot de Passe</h2>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="login-wrap p-0">
+
+                        <!-- Formulaire -->
+                        {{ form_start(resetForm) }}
+
+                            <div class="form-group">
+                                {{ form_row(resetForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+
+                            <!-- Submit Button-->
+                            <div class="form-group">
+                                <button class="btn btn-primary">Réinitialiser votre Mot de Passe</button>
+                            </div>
+                            
+                        {{ form_end(resetForm) }}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

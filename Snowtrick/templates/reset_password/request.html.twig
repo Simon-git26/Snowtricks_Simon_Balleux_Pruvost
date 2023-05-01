@@ -3,19 +3,58 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
+    <style type="text/css">
+      body {
+        vertical-align: middle;
+        border-style: none;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.5)), url({{ asset('css_login/images/bg.jpg') }});
+      }
+    </style>
+
+
     {% for flash_error in app.flashes('reset_password_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
-    <h1>Réinitialiser votre mot de passe</h1>
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Entrez votre adresse e-mail pour recevoir un lien de réinitialisation de votre mot de passe.
-            </small>
+
+    <section class="ftco-section">
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section">Réinitialiser le Mot de Passe</h2>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="login-wrap p-0">
+
+                        <!-- Formulaire -->
+                        {{ form_start(requestForm) }}
+
+                            <div>
+                                <small>
+                                    Entrez votre adresse e-mail pour recevoir un lien de réinitialisation de votre mot de passe.
+                                </small>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="form-group">
+                                {{ form_row(requestForm.email, {'attr': {'class': 'form-control'}}) }}
+                                
+                            </div>
+
+
+                            <!-- Submit Button-->
+                            <div class="form-group">
+                                <button class="btn btn-primary">Envoyer un e-mail de réinitialisation</button>
+                            </div>
+                        {{ form_end(requestForm) }}
+
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <button class="btn btn-primary">Envoyer un e-mail de réinitialisation du mot de passe</button>
-    {{ form_end(requestForm) }}
+    </section>
 {% endblock %}
