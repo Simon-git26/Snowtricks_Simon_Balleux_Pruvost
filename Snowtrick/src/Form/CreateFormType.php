@@ -51,6 +51,7 @@ class CreateFormType extends AbstractType
                         'mimeTypes' => [
                             'image/png',
                             'image/jpg',
+                            'image/jpeg'
                         ],
                         'mimeTypesMessage' => 'Please upload a valid image',
                     ])

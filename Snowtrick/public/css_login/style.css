@@ -5341,7 +5341,7 @@
     vertical-align: text-top !important; }
   
   .bg-primary {
-    background-color: #007bff !important; }
+    background-color: #31455c !important; }
   
   a.bg-primary:hover, a.bg-primary:focus,
   button.bg-primary:hover,
@@ -8128,7 +8128,7 @@
     -webkit-transition: .3s all ease;
     -o-transition: .3s all ease;
     transition: .3s all ease;
-    color: #fbceb5; }
+    color: #fff; }
     a:hover, a:focus {
       text-decoration: none !important;
       outline: none !important;
@@ -8143,7 +8143,7 @@
     color: #000; }
   
   .bg-primary {
-    background: #fbceb5 !important; }
+    background: #31455c !important; }
   
   .ftco-section {
     padding: 7em 0; }
