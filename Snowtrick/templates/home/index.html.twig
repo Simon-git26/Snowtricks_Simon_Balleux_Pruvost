@@ -6,9 +6,10 @@
 
 <!-- Grande Image de ma page Home -->
 
-<img src="{{ asset('uploads/image_home/home.jpg') }}" class="img-fluid" alt="Responsive image">
-
-
+<div>
+    <img src="{{ asset('uploads/image_home/home.jpg') }}" class="img-fluid" alt="Responsive image">
+    <span><i class="fa-solid fa-arrow-down"></i></span>
+</div>
 
 
 
@@ -19,15 +20,15 @@
 
     <!-- Creation Trick si user connecté -->
     {% if app.user %}
-        <a href="/create">Créer votre Figure</a>
+        <a href="/create" style="color: black;">Créer votre Figure</a>
     {% endif %}
 
 
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-around">
             <!-- Liste de trick existant -->
             {% for trick in tricks %}
-                <div class="card bg-primary mb-3 col-md-3 p-0" style="max-width: 18rem;">
+                <div class="card bg-primary mb-3 col-md-4 p-0" style="max-width: 18rem;">
                     <div class="card-header p-0">
                         <!-- Image Trick -->
                         <img src="{{ asset('uploads/image_user/') }}{{ trick.image|e }}" alt="" style="width: 100%;height:12rem;">

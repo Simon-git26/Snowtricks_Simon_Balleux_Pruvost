@@ -41,8 +41,14 @@
   </head>
 
   <body>
+
     <!-- Appel de mon header personalise -->
-    {% include 'base/header.html.twig' %}
+    {% if  app.request.pathInfo != "/login" and app.request.pathInfo != "/register" and app.request.pathInfo != "/reset-password" and app.request.pathInfo != "/reset-password/check-email" and app.request.pathInfo != "/reset-password/reset" %}
+      {% include 'base/header.html.twig' %}
+    {% endif %}
+    
+
+
     
     {% block body %}
         <div class="container-fluid">
@@ -67,9 +73,11 @@
 
 
       <!-- Appel de mon footer personalise -->
-      {% include 'base/footer.html.twig' %}
-
-
+      {% if  app.request.pathInfo != "/login" and app.request.pathInfo != "/register" and app.request.pathInfo != "/reset-password" and app.request.pathInfo != "/reset-password/check-email" and app.request.pathInfo != "/reset-password/reset" %}
+        {% include 'base/footer.html.twig' %}
+      {% endif %}
+      
+      
 
       {% block javascript %}
       <!-- Le javascript
