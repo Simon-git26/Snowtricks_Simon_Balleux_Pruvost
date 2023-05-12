@@ -60,6 +60,7 @@ class EditController extends AbstractController
                     'mimeTypes' => [
                         'image/png',
                         'image/jpg',
+                        'image/jpeg',
                     ],
                     'mimeTypesMessage' => 'Please upload a valid image',
                 ])
@@ -68,7 +69,9 @@ class EditController extends AbstractController
 
         ->add('video')
         // Bouton submit
-        ->add('submit', SubmitType::class)
+        ->add('submit', SubmitType::class, [
+            'label' => 'Sauvegarder !'
+        ])
         ->getForm();
 
 
@@ -122,9 +125,19 @@ class EditController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        // Recuperer mon trick selon son id
+        $trick = $doctrine->getRepository(Tricks::class)->find($id);
+
+        // Erreur si trick n'existe pas
+        if (!$trick) {
+            echo "Aucun Trick n'a était récupéré";
+            die();
+        }
+
 
         return $this->render('edit/index.html.twig', [
             'controller_name' => 'EditController',
+            'trick' => $trick,
             'edit_form' => $form->createView()
         ]);
     }
