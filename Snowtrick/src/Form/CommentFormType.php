@@ -18,7 +18,7 @@ class CommentFormType extends AbstractType
     {
         $builder
             ->add('content', null, [
-                'label' => 'Contenu',
+                'label' => 'Commentaire',
             ])
             
             // Type hidden trick
@@ -31,7 +31,9 @@ class CommentFormType extends AbstractType
             ->add('is_actif', HiddenType::class)
 
             // Bouton submit
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'Envoyer',
+            ])
         ;
     }
 
