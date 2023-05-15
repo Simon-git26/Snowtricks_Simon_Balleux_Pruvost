@@ -35,39 +35,11 @@ class DeleteController extends AbstractController
     {
         // Mon formulaire de modification de trick
         $deleteTrick = $doctrine->getRepository(Tricks::class)->find($id);
+        
+        $this->entityManager->remove($deleteTrick);
+        $this->entityManager->flush();
 
-        $form = $this->createFormBuilder($deleteTrick)
-       
-        // Bouton submit
-        ->add('submit', SubmitType::class, [
-            'label' => 'Supprimer ce Trick ?',
-        ])
-        ->getForm();
-
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->remove($deleteTrick);
-            $this->entityManager->flush();
-            
-            // Changer la route plus tard pour /detail/{id}
-            return $this->redirectToRoute('app_home');
-        }
-
-
-        //Permet de recuperer mes données en BDD grace a mes method du Repository et de Doctrine ORM
-        $trick = $doctrine->getRepository(Tricks::class)->find($id);
-
-        if (!$trick) {
-            echo "Aucun Trick n'a était récupéré";
-            die();
-        }
-
-        return $this->render('delete/index.html.twig', [
-            'controller_name' => 'DeleteController',
-            'trick' => $trick,
-            'delete_trick' => $form->createView()
-        ]);
+        return $this->redirectToRoute('app_home');
+   
     }
 }
