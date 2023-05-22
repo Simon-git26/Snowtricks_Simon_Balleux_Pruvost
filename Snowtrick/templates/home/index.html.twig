@@ -80,19 +80,14 @@
                 </div>
             {% endfor %}
         </div>
-
-
-
-
-
-        
-
-
-
-
     </div>
+
+    <!-- Affichage du message de succès -->
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
     
-
-
 
 {% endblock %}
