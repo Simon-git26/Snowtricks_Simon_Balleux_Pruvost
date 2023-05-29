@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 // Entité concerné
 use App\Entity\Trick;
-use App\Entity\Comments;
+use App\Entity\Comment;
 use App\Entity\User;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -52,10 +52,10 @@ class AppFixtures extends Fixture
     }
 
     private function setComments(User $user, Trick $trick, ObjectManager $manager) {
-        // Comments Fixtures
+        // Comment Fixtures
         for ($i = 1; $i <= 2; $i++) {
             // Instanciations de ma class Trick
-            $comments = new Comments();
+            $comments = new Comment();
             $comments->setUser($user);
             $comments->setTrick($trick);
             $comments->setContent('Commentaire '.$i);

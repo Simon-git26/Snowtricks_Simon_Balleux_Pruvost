@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 // Transmission de mon formulaire comment
 use App\Form\CommentFormType;
-use App\Entity\Comments;
+use App\Entity\Comment;
 
 
 
@@ -52,7 +52,7 @@ class TrickController extends AbstractController
     public function detail(ManagerRegistry $doctrine, int $id, Request $request): Response
     {
         // Mon formulaire de creation de commentaires
-        $commentForm = new Comments();
+        $commentForm = new Comment();
 
         $form = $this->createForm(CommentFormType::class, $commentForm);
         $form->handleRequest($request);
@@ -97,7 +97,7 @@ class TrickController extends AbstractController
         $trick = $doctrine->getRepository(Trick::class)->find($id);
 
         // Récuperer tous les commentaires ou trick_id correspond à l'id du trick en question sur la page detail
-        $comments = $doctrine->getRepository(Comments::class)->findBy([
+        $comments = $doctrine->getRepository(Comment::class)->findBy([
             'trick' => $id
         ]);
 

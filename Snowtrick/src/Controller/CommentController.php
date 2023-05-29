@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 // Appel de mon entity pour pouvoir utiliser ces method
-use App\Entity\Comments;
+use App\Entity\Comment;
 // Soumission du formulaire et persistance des données dans la BDD
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,23 +16,21 @@ use Symfony\Component\HttpFoundation\Request;
 // Personalisation de mon formulaire
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class DeleteCommentController extends AbstractController
+class CommentController extends AbstractController
 {
-    private $twig;
     private $entityManager;
 
     public function __construct(Environment $twig, EntityManagerInterface $entityManager) {
-        $this->twig = $twig;
         $this->entityManager = $entityManager;
     }
 
     /**
-     * @Route("/delete/comment/{id}", name="app_delete_comment")
+     * @Route("/comment/delete/{id}", name="app_delete_comment")
      */
-    public function index(ManagerRegistry $doctrine, int $id, Request $request): Response
+    public function delete(ManagerRegistry $doctrine, int $id, Request $request): Response
     {
         // Mon formulaire de modification de trick
-        $deleteComment = $doctrine->getRepository(Comments::class)->find($id);
+        $deleteComment = $doctrine->getRepository(Comment::class)->find($id);
 
         $form = $this->createFormBuilder($deleteComment)
        
@@ -55,7 +53,7 @@ class DeleteCommentController extends AbstractController
 
 
         //Permet de recuperer mes données en BDD grace a mes method du Repository et de Doctrine ORM
-        $comment = $doctrine->getRepository(Comments::class)->find($id);
+        $comment = $doctrine->getRepository(Comment::class)->find($id);
 
         if (!$comment) {
             echo "Aucun commentaire n'a était récupéré";
@@ -63,7 +61,7 @@ class DeleteCommentController extends AbstractController
         }
 
         return $this->render('delete_comment/index.html.twig', [
-            'controller_name' => 'DeleteCommentController',
+            'controller_name' => 'CommentController',
             'comment' => $comment,
             'delete_comment' => $form->createView()
         ]);

@@ -55,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $imagePath;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="user_id")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user_id")
      */
     private $comments;
 
@@ -189,14 +189,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     /**
-     * @return Collection<int, Comments>
+     * @return Collection<int, Comment>
      */
     public function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public function addComment(Comments $comment): self
+    public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
@@ -206,7 +206,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeComment(Comments $comment): self
+    public function removeComment(Comment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)

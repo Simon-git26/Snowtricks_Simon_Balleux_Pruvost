@@ -804,7 +804,7 @@
 
                                                             <!-- Si User connecté + user admin -->
                                                             {% if app.user and app.user.roles[0] != "ROLE_USER"  %}
-                                                                <a href="/delete/comment/{{comment.id}}" style="color:red;"><i class="fa-solid fa-trash-can"></i></a>
+                                                                <a href="/comment/delete/{{comment.id}}" style="color:red;"><i class="fa-solid fa-trash-can"></i></a>
                                                                 <input type="hidden" value={{comment.id}}/>
                                                             {% endif %}
                                                         </span>
