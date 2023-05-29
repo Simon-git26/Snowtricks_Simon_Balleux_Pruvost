@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentRepository;
+use App\Repository\CommentsRepository;
 use Doctrine\ORM\Mapping as ORM;
-// validation
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=CommentRepository::class)
+ * @ORM\Entity(repositoryClass=CommentsRepository::class)
  */
 class Comment
 {

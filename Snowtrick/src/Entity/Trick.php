@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\TrickRepository;
+use App\Repository\TricksRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @ORM\Entity(repositoryClass=TricksRepository::class)
  */
 class Trick
 {
