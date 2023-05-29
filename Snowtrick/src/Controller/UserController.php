@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /* Partie register */
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\RegistrationType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -24,8 +24,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /* Reset Password */
-use App\Form\ChangePasswordFormType;
-use App\Form\ResetPasswordRequestFormType;
+use App\Form\ChangePasswordType;
+use App\Form\ResetPasswordRequestType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Mailer\MailerInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
@@ -78,7 +78,7 @@ class UserController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -184,7 +184,7 @@ class UserController extends AbstractController
      */
     public function request(Request $request, MailerInterface $mailer): Response
     {
-        $form = $this->createForm(ResetPasswordRequestFormType::class);
+        $form = $this->createForm(ResetPasswordRequestType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -250,7 +250,7 @@ class UserController extends AbstractController
         }
 
         // The token is valid; allow the user to change their password.
-        $form = $this->createForm(ChangePasswordFormType::class);
+        $form = $this->createForm(ChangePasswordType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

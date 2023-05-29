@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 // Appel de mon entity pour pouvoir utiliser ces method
 use App\Entity\Trick;
 // Transmission de mon formulaire cedit
-use App\Form\CreateFormType;
+use App\Form\CreateType;
 // Soumission du formulaire et persistance des données dans la BDD
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +29,7 @@ use Symfony\Component\Validator\Constraints\File;
 // Personalisation de mon formulaire
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 // Transmission de mon formulaire comment
-use App\Form\CommentFormType;
+use App\Form\CommentType;
 use App\Entity\Comment;
 
 
@@ -54,7 +54,7 @@ class TrickController extends AbstractController
         // Mon formulaire de creation de commentaires
         $commentForm = new Comment();
 
-        $form = $this->createForm(CommentFormType::class, $commentForm);
+        $form = $this->createForm(CommentType::class, $commentForm);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -131,7 +131,7 @@ class TrickController extends AbstractController
         // Mon formulaire de modification de trick
         $createForm = new Trick();
 
-        $form = $this->createForm(CreateFormType::class, $createForm);
+        $form = $this->createForm(CreateType::class, $createForm);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
