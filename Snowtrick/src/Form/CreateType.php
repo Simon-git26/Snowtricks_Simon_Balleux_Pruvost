@@ -66,7 +66,9 @@ class CreateType extends AbstractType
             
 
             // Bouton submit
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'Soumettre',
+            ])
         ;
     }
 
