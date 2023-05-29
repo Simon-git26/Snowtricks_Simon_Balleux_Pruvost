@@ -36,7 +36,7 @@ class Comments
     private $isActif;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="comments", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="comments", cascade={"persist"})
      * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
      */
     private $trick;
@@ -88,12 +88,12 @@ class Comments
         return $this;
     }
 
-    public function getTrick(): ?Tricks
+    public function getTrick(): ?Trick
     {
         return $this->trick;
     }
 
-    public function setTrick(?Tricks $trick): self
+    public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
 

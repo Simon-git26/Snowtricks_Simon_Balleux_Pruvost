@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 // Appel de mon entity pour pouvoir utiliser ces method
-use App\Entity\Tricks;
+use App\Entity\Trick;
 // Transmission de mon formulaire cedit
 use App\Form\CreateFormType;
 // Soumission du formulaire et persistance des données dans la BDD
@@ -60,7 +60,7 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             // Récupérer l'id du trick et l'attribuer au champs trick du form
-            $getIdTrick = $doctrine->getRepository(Tricks::class)->find($id);
+            $getIdTrick = $doctrine->getRepository(Trick::class)->find($id);
             $idTrick = $form->get('trick')->getData();
             $idTrick = $getIdTrick;
             $commentForm->setTrick($idTrick);
@@ -94,7 +94,7 @@ class TrickController extends AbstractController
 
 
         // Recuperer mon trick selon son id
-        $trick = $doctrine->getRepository(Tricks::class)->find($id);
+        $trick = $doctrine->getRepository(Trick::class)->find($id);
 
         // Récuperer tous les commentaires ou trick_id correspond à l'id du trick en question sur la page detail
         $comments = $doctrine->getRepository(Comments::class)->findBy([
@@ -129,7 +129,7 @@ class TrickController extends AbstractController
         $session = new Session();
 
         // Mon formulaire de modification de trick
-        $createForm = new Tricks();
+        $createForm = new Trick();
 
         $form = $this->createForm(CreateFormType::class, $createForm);
         $form->handleRequest($request);
@@ -211,7 +211,7 @@ class TrickController extends AbstractController
     public function delete(ManagerRegistry $doctrine, int $id): Response
     {
         // Mon formulaire de modification de trick
-        $deleteTrick = $doctrine->getRepository(Tricks::class)->find($id);
+        $deleteTrick = $doctrine->getRepository(Trick::class)->find($id);
         
         $this->entityManager->remove($deleteTrick);
         $this->entityManager->flush();
@@ -231,7 +231,7 @@ class TrickController extends AbstractController
     {
 
         // Mon formulaire de modification de trick
-        $editForm = $doctrine->getRepository(Tricks::class)->find($id);
+        $editForm = $doctrine->getRepository(Trick::class)->find($id);
 
         $form = $this->createFormBuilder($editForm)
         ->add('title')
@@ -317,7 +317,7 @@ class TrickController extends AbstractController
         }
 
         // Recuperer mon trick selon son id
-        $trick = $doctrine->getRepository(Tricks::class)->find($id);
+        $trick = $doctrine->getRepository(Trick::class)->find($id);
 
         // Erreur si trick n'existe pas
         if (!$trick) {

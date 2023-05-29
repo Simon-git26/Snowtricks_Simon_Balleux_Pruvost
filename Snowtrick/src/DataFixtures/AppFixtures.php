@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 // Entité concerné
-use App\Entity\Tricks;
+use App\Entity\Trick;
 use App\Entity\Comments;
 use App\Entity\User;
 
@@ -36,10 +36,10 @@ class AppFixtures extends Fixture
     }
 
     private function setTricks(User $user, ObjectManager $manager) {
-        // Tricks Fixtures
+        // Trick Fixtures
         for ($i = 1; $i <= 3; $i++) {
             // Instanciations de ma class Trick
-            $tricks = new Tricks();
+            $tricks = new Trick();
             $tricks->setUser($user);
             $tricks->setTitle('Trick '.$i);
             $tricks->setDescription('Description du trick '.$i);
@@ -51,7 +51,7 @@ class AppFixtures extends Fixture
         }
     }
 
-    private function setComments(User $user, Tricks $trick, ObjectManager $manager) {
+    private function setComments(User $user, Trick $trick, ObjectManager $manager) {
         // Comments Fixtures
         for ($i = 1; $i <= 2; $i++) {
             // Instanciations de ma class Trick
