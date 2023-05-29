@@ -45,16 +45,16 @@ class RegistrationType extends AbstractType
             ])
 
 
-            ->add('agreeTerms', CheckboxType::class, [
+            ->add('conditions', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter nos conditions.',
                     ]),
                 ],
             ])
 
-            ->add('plainPassword', PasswordType::class, [
+            ->add('motDePasse', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,

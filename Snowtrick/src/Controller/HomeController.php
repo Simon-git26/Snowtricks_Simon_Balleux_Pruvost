@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 // Appel de mon entity pour pouvoir utiliser ces method
 use App\Entity\Trick;
-// Soumission du formulaire et persistance des données dans la BDD
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
+
 
 class HomeController extends AbstractController
 {
