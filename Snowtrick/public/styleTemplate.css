@@ -1,0 +1,163 @@
+/*-----------------------------------------------------------------------------------*/
+
+/*  /* Global rules */
+
+/*-----------------------------------------------------------------------------------*/
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+/*-----------------------------------------------------------------------------------*/
+
+/*  /* Tricks cards */
+
+/*-----------------------------------------------------------------------------------*/
+
+.card {
+    box-shadow: 0 2px 0 rgba(90, 97, 105, 0.11), 0 4px 8px rgba(90, 97, 105, 0.12), 0 10px 10px #5a61690f, 0 7px 70px rgba(90, 97, 105, 0.1);
+    border-radius: 0.625rem;
+}
+
+.card-img-top {
+    border-top-left-radius: 0.625rem;
+    border-top-right-radius: 0.625rem;
+}
+
+
+.list-inline-item:not(:first-child) {
+    margin-left: 0.5rem;
+}
+
+
+/*-----------------------------------------------------------------------------------*/
+
+/*  /* Trick */
+
+/*-----------------------------------------------------------------------------------*/
+
+.trick-data {
+    font-size: 0.8rem;
+}
+
+
+
+/*-----------------------------------------------------------------------------------*/
+
+/*  /* Tricks comments */
+
+/*-----------------------------------------------------------------------------------*/
+
+body>div.container.mt-5>div>div>div.card.mt-5 {
+    margin-bottom: 30px;
+}
+
+.comments {
+    background: #fff;
+    border-radius: 0.625rem;
+    box-shadow: 0 2px 0 rgba(90, 97, 105, 0.11), 0 4px 8px rgba(90, 97, 105, 0.12), 0 10px 10px rgba(90, 97, 105, 0.06), 0 7px 70px rgba(90, 97, 105, 0.1);
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.padDiv {
+    padding: 30px 35px;
+}
+
+
+body>div.container.mt-5>div>div>div.col-md-12.px-0>div>p {
+    margin: 0;
+}
+
+
+.entry-comments-item {
+    margin-top: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.entry-comments-avatar {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+.entry-comments-body {
+    padding-left: 86px;
+}
+
+.entry-comments-author {
+    font-size: 16px;
+    color: #292929;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+}
+
+.comment-content {
+    margin-top: 25px;
+    margin-bottom: 0;
+    padding: 0;
+    font-size: 15px;
+    color: #999999;
+    line-height: 28px;
+}
+
+.comment-date {
+    font-size: 13px;
+}
+
+.comments-anchor {
+    display: block;
+    height: 115px;
+    height: 98.75px;
+    margin-top: -98.75px;
+}
+
+.comment-anchor {
+    display: block;
+    height: 115px;
+    height: 98.75px;
+    margin-top: -98.75px;
+}
+
+
+/*-----------------------------------------------------------------------------------*/
+
+/*  /* Responsive max-width 768px */
+
+/*-----------------------------------------------------------------------------------*/
+
+@media (max-width: 768px) {
+
+    /*----------------------------------------*/
+
+    /*  /* Comment */
+
+    /*----------------------------------------*/
+
+    .entry-comments-avatar {
+        position: relative;
+        float: left;
+        margin-right: 1rem;
+    }
+
+    .entry-comments-body {
+        padding-left: 0;
+    }
+
+    .entry-comments-author {
+        line-height: 3.7rem;
+    }
+}
