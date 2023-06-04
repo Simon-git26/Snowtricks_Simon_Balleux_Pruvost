@@ -35,17 +35,22 @@
 
                     <!-- Body Card + stylo et corbeille -->
                     <div class="card-body d-flex justify-content-between">
-                        <!-- Passer le titre en lien vers la page details du trick à terme -->
-                        <a href="/trick/detail/{{trick.id}}">{{ trick.getTitle|e }}</a>
+
+                        <!-- Passer l'id et le titre en slug pour une url correcte  -->
+                        <a href="{{ path('app_detail', {'id': trick.id, 'slug': trick.title}) }}">
+                            {{ trick.getTitle|e }}
+                        </a>
+
                         <input type="hidden" value={{trick.id}}/>
 
                         <!-- Affichage du stylo et corbeille si connecté -->
                         {% if app.user %}
                             <div style="display:flex;">
-                                <a href="/trick/edit/{{trick.id}}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
+                                <!-- Passer l'id et le titre en slug pour une url correcte  -->
+                                <a href="{{ path('app_edit', {'id': trick.id, 'slug': trick.title}) }}" class="btn btn-primary">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
                                 <input type="hidden" value={{trick.id}}/>
-
-                              
 
                                 <!-- Button trigger modal -->
                                 <button value={{trick.id}} type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{trick.id}}">
