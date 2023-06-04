@@ -1,27 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DeleteCommentController!{% endblock %}
+{% block title %}Supprimer le commentaire ? {% endblock %}
 
 {% block body %}
 
-<h1>Delete Comment</h1>
 
-<!-- fonction dump() utilisé grace au bundle vardumper -->
-<p>{{ dump(comment) }}</p>
+<div class="container mt-5">  
+    <div class="row justify-content-center mt-5">          
+        <div class="col-md-10 col-md-offset-1 mt-5 mb-4">            
+            <div class="card mt-5">
+        
+                {% if comment %}
+                    <p class="mt-5" style="margin-left: 4rem;">{{ comment.getContent|e }}</p>
+                {% endif %}
 
-
-<!-- Affichage de ma liste de Tricks -->
-<ul>
-    {% if comment %}
-        <!-- Passer le titre en lien vers la page details du trick à terme -->
-        <li>{{ comment.getContent|e }}</li>
-    {% endif %}
-
-
-    {% if app.user %}
-        {{ form(delete_comment) }}
-    {% endif %}
-</ul>
-
-
+                <!-- Card Body -->
+                <div class="card-body">
+                    {% if app.user %}
+                        {{ form(delete_comment, {'attr': {'class': 'form-control'}}) }}
+                    {% endif %}                         
+                </div>
+            </div>
+        </div>     
+    </div>           
+</div>
 {% endblock %}
