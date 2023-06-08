@@ -10,25 +10,16 @@ use Symfony\Component\Routing\Annotation\Route;
 // Appel de mon entity pour pouvoir utiliser ces method
 use App\Entity\Trick;
 // Transmission de mon formulaire cedit
-use App\Form\CreateType;
+use App\Form\TrickType;
 // Soumission du formulaire et persistance des données dans la BDD
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 //Sotcker mon message en session
 use Symfony\Component\HttpFoundation\Session\Session;
 // Pour ma method de delete
 use Doctrine\Persistence\ManagerRegistry;
-
-// Image pour edit
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Validator\Constraints\File;
-
-// Pour ma method detail
-// Personalisation de mon formulaire
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 // Transmission de mon formulaire comment
 use App\Form\CommentType;
 use App\Entity\Comment;
@@ -136,56 +127,14 @@ class TrickController extends AbstractController
      */
     public function edit(ManagerRegistry $doctrine, int $id, $slug, SluggerInterface $slugger, Request $request): Response
     {
-
         // Mon formulaire de modification de trick
         $editForm = $doctrine->getRepository(Trick::class)->find($id);
 
-        $form = $this->createFormBuilder($editForm)
-        ->add('title')
-        ->add('description')
-        ->add('groupe')
-
-        // Ajouter un dl d'image
-        ->add('image', FileType::class, [
-            'label' => 'image',
-            'mapped' => false,
-            'required' => false,
-            'data_class' => null,
-
-            'constraints' => [
-                new File([
-                    'maxSize' => '1024k',
-                    'mimeTypes' => [
-                        'image/png',
-                        'image/jpg',
-                        'image/jpeg',
-                    ],
-                    'mimeTypesMessage' => 'Please upload a valid image',
-                ])
-            ]
-        ])
-
-        ->add('video')
-        // Bouton submit
-        ->add('submit', SubmitType::class, [
-            'label' => 'Sauvegarder !'
-        ])
-        ->getForm();
-
-
-        
+        $form = $this->createForm(TrickType::class, $editForm);
         $form->handleRequest($request);
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Attribué une valeur Datetime a mon champs date
-            $date= new \DateTime;
-            $editForm->setDateCreate($date);
-
-            // Récupérer l'id du user connecté et l'attribuer au champs user
-            $userConnected = $this->getUser();
-            $editForm->setUser($userConnected);
-
-
             // Image uploader //
             /* Recuperer ma propriete image */
             $imageFile = $form->get('image')->getData();
@@ -213,15 +162,14 @@ class TrickController extends AbstractController
                 $editForm->setImage($newFilename);
             }
 
-
-
             $this->entityManager->persist($editForm);
             $this->entityManager->flush();
             
-
             // Changer la route plus tard pour /detail/{id}
             return $this->redirectToRoute('app_home');
         }
+
+
 
         // Recuperer mon trick selon son id
         $trick = $doctrine->getRepository(Trick::class)->find($id);
@@ -266,24 +214,20 @@ class TrickController extends AbstractController
         // Mon formulaire de modification de trick
         $createForm = new Trick();
 
-        $form = $this->createForm(CreateType::class, $createForm);
+        
+
+        $form = $this->createForm(TrickType::class, $createForm);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if($form->isValid()) {
-                // Attribué la date de la creation à mon champ date_create
+                // Attribué la date de la creation
                 $date= new \DateTime;
-                $dateCreate = $form->get('date_create')->getData();
-                $dateCreate = $date;
-                $createForm->setDateCreate($dateCreate);
+                $createForm->setDateCreate($date);
 
-                // Récupérer l'id du user connecté et l'attribuer au champs user du form
+                // Récupérer l'id du user connecté
                 $userConnected = $this->getUser();
-                $idUser = $form->get('user')->getData();
-                $idUser = $userConnected;
-                $createForm->setUser($idUser);
-
-
+                $createForm->setUser($userConnected);
                 
                 // Image uploader //
                 /* Recuperer ma propriete image */

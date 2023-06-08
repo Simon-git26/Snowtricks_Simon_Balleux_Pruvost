@@ -11,9 +11,8 @@ use Symfony\Component\Validator\Constraints\File;
 
 // Personalisation de mon formulaire
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-class CreateType extends AbstractType
+class TrickType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -31,11 +30,7 @@ class CreateType extends AbstractType
                 'label' => 'Groupe',
             ])
 
-            // Type hidden user
-            ->add('user', HiddenType::class)
             
-            // Type hidden date
-            ->add('date_create', HiddenType::class)
 
             
             // Ajouter un dl d'image
