@@ -12,15 +12,16 @@ use App\Entity\Comment;
 // Soumission du formulaire et persistance des données dans la BDD
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-
 // Personalisation de mon formulaire
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+
 
 class CommentController extends AbstractController
 {
     private $entityManager;
 
-    public function __construct(Environment $twig, EntityManagerInterface $entityManager) {
+    public function __construct(EntityManagerInterface $entityManager) {
         $this->entityManager = $entityManager;
     }
 

@@ -167,15 +167,6 @@ class UserController extends AbstractController
 
 
 
-
-
-
-
-
-    
-
-    
-
     /**
      * ******************** Reset Password ***************
      * Display & process form to request a password reset.
@@ -199,6 +190,7 @@ class UserController extends AbstractController
         ]);
     }
 
+
     /**
      * Confirmation page after a user has requested a password reset.
      *
@@ -216,6 +208,8 @@ class UserController extends AbstractController
             'resetToken' => $resetToken,
         ]);
     }
+
+
 
     /**
      * Validates and process the reset URL that the user clicked in their email.
@@ -277,6 +271,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    
     private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): RedirectResponse
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
