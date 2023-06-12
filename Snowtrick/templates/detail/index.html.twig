@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Details Trick !{% endblock %}
+{% block title %}Detail des Tricks !{% endblock %}
 
 {% block body %}
     <!-- Detail du trick-->
@@ -72,7 +72,7 @@
                     </div>
 
 
-                    {% if app.user %}
+                    {% if isConnected %}
                         <!-- Formulaire de creation de commentaire si user connecté OU lien pour s'incrire ou se connecté -->
                         <div class="col-md-12 px-0 mb-30">
                             <div class="comments text-center p-3">
@@ -112,7 +112,7 @@
                                                             {{ comment.getDateCreate|date("m/d/Y") }}
 
                                                             <!-- Si User connecté + user admin -->
-                                                            {% if app.user and app.user.roles[0] != "ROLE_USER"  %}
+                                                            {% if isAdmin  %}
                                                                 <a href="/comment/delete/{{comment.id}}" style="color:red;"><i class="fa-solid fa-trash-can"></i></a>
                                                                 
                                                                 <input type="hidden" value={{comment.id}}/>

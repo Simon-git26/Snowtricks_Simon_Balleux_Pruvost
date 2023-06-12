@@ -30,6 +30,16 @@ class CommentController extends AbstractController
      */
     public function delete(ManagerRegistry $doctrine, int $id, Request $request): Response
     {
+        // Set une variable isConnected pour verifier si un user est connecté
+        // Sert à declarer ma logique dans le controller au lieu de le faire dans Twig
+        $isConnected = false;
+        $userConnected = $this->getUser();
+
+        // Si un user est connecté
+        if ($userConnected) {
+            $isConnected = true;
+        }
+
         // Mon formulaire de modification de trick
         $deleteComment = $doctrine->getRepository(Comment::class)->find($id);
 
@@ -64,7 +74,8 @@ class CommentController extends AbstractController
         return $this->render('delete_comment/index.html.twig', [
             'controller_name' => 'CommentController',
             'comment' => $comment,
-            'delete_comment' => $form->createView()
+            'delete_comment' => $form->createView(),
+            'isConnected' => $isConnected
         ]);
     }
 }

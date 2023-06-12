@@ -143,8 +143,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-
     // Ajout securiter user
     public function getUserIdentifier(): string
     {

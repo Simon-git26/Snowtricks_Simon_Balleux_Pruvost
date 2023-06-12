@@ -3,7 +3,7 @@
 {% block title %}Modification Trick !{% endblock %}
 
 {% block body %}
-    {% if app.user %}
+    {% if isConnected %}
         {{ form_start(create_form) }}
 
             <div class="container mt-5">  

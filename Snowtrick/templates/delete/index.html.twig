@@ -6,9 +6,6 @@
 
 <h1>Delete Trick</h1>
 
-<!-- fonction dump() utilisé grace au bundle vardumper -->
-<p>{{ dump(app.user) }}</p>
-
 
 <!-- Affichage de ma liste de Tricks -->
 <ul>
@@ -18,7 +15,7 @@
     {% endif %}
 
 
-    {% if app.user %}
+    {% if isConnected %}
         {{ form(delete_trick) }}
     {% endif %}
 </ul>

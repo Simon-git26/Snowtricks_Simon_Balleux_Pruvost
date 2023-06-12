@@ -43,6 +43,28 @@ class TrickController extends AbstractController
      */
     public function detail(ManagerRegistry $doctrine, int $id, $slug, SluggerInterface $slugger, Request $request): Response
     {
+        // Set une variable isConnected pour verifier si un user est connecté
+        // Sert à declarer ma logique dans le controller au lieu de le faire dans Twig
+        $isConnected = false;
+        $userConnected = $this->getUser();
+
+        $roleUserConnected = "";
+        
+        // Si un user est connecté
+        if ($userConnected) {
+            $isConnected = true;
+
+            $roleUserConnected = $this->getUser()->getRoles()[0];
+        }
+
+        // Meme principe que pour user connecté mais la pour savoir si son role est admin
+        $isAdmin = false;
+
+        if ($roleUserConnected == "ROLE_ADMIN") {
+            $isAdmin = true;
+        }
+        
+        
         // Mon formulaire de creation de commentaires
         $commentForm = new Comment();
 
@@ -112,12 +134,16 @@ class TrickController extends AbstractController
         }
 
         // Envoyer mes donnée a ma view
+        // Passé ma var isConnected pour m'en servir dans Twig ainsi que isAdmin pour mon btn corbeille commentaire
         return $this->render('detail/index.html.twig', [
             'controller_name' => 'TrickController',
             'trick' => $trick,
             'comments' => $comments,
-            'comment_form' => $form->createView()
+            'comment_form' => $form->createView(),
+            'isConnected' => $isConnected,
+            'isAdmin' => $isAdmin
         ]);
+        
     }
 
 
@@ -127,6 +153,16 @@ class TrickController extends AbstractController
      */
     public function edit(ManagerRegistry $doctrine, int $id, $slug, SluggerInterface $slugger, Request $request): Response
     {
+        // Set une variable isConnected pour verifier si un user est connecté
+        // Sert à declarer ma logique dans le controller au lieu de le faire dans Twig
+        $isConnected = false;
+        $userConnected = $this->getUser();
+
+        // Si un user est connecté
+        if ($userConnected) {
+            $isConnected = true;
+        }
+
         // Mon formulaire de modification de trick
         $editForm = $doctrine->getRepository(Trick::class)->find($id);
 
@@ -196,7 +232,8 @@ class TrickController extends AbstractController
         return $this->render('edit/index.html.twig', [
             'controller_name' => 'TrickController',
             'trick' => $trick,
-            'edit_form' => $form->createView()
+            'edit_form' => $form->createView(),
+            'isConnected' => $isConnected
         ]);
     }
 
@@ -208,13 +245,21 @@ class TrickController extends AbstractController
 
      public function add(Request $request, SluggerInterface $slugger): Response
     {
+        // Set une variable isConnected pour verifier si un user est connecté
+        // Sert à declarer ma logique dans le controller au lieu de le faire dans Twig
+        $isConnected = false;
+        $userConnected = $this->getUser();
+
+        // Si un user est connecté
+        if ($userConnected) {
+            $isConnected = true;
+        }
+
 
         $session = new Session();
 
         // Mon formulaire de modification de trick
         $createForm = new Trick();
-
-        
 
         $form = $this->createForm(TrickType::class, $createForm);
         $form->handleRequest($request);
@@ -277,7 +322,8 @@ class TrickController extends AbstractController
 
         return $this->render('create/index.html.twig', [
             'controller_name' => 'TrickController',
-            'create_form' => $form->createView()
+            'create_form' => $form->createView(),
+            'isConnected' => $isConnected
         ]);
     }
 
@@ -296,6 +342,6 @@ class TrickController extends AbstractController
         $this->entityManager->flush();
 
         return $this->redirectToRoute('app_home');
-   
+
     }
 }

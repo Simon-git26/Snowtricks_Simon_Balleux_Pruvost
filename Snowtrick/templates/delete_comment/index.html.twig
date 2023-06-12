@@ -16,7 +16,7 @@
 
                 <!-- Card Body -->
                 <div class="card-body">
-                    {% if app.user %}
+                    {% if isConnected %}
                         {{ form(delete_comment, {'attr': {'class': 'form-control'}}) }}
                     {% endif %}                         
                 </div>

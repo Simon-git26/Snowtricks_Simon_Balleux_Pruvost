@@ -16,7 +16,7 @@
 <!-- Affichage de ma liste de Tricks -->
 
     <!-- Creation Trick si user connecté -->
-    {% if app.user %}
+    {% if isConnected %}
         <a class="btn btn-primary" href="/trick/add" style="color: black;">Créer votre Figure</a>
     {% endif %}
 
@@ -45,11 +45,13 @@
                         <input type="hidden" value={{trick.id}}/>
 
                         <!-- Affichage du stylo et corbeille si connecté -->
-                        {% if app.user %}
+                        {% if isConnected %}
                             <div style="display:flex;">
+
                                 <!-- Passer l'id et le titre en slug pour une url correcte  -->
+                                {% if idUserConnected == trick.user.id %}
                                 
-                                {% if app.user.id == trick.user.id %}
+
                                     <a href="{{ path('app_edit', {'id': trick.id, 'slug': trick.title}) }}" class="btn btn-primary">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
@@ -59,10 +61,9 @@
                                     <button value={{trick.id}} type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{trick.id}}">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
+
+
                                 {% endif %}
-
-                               
-
                                 
                             </div>
 
