@@ -37,7 +37,6 @@ class TrickController extends AbstractController
     }
 
 
-
     /**
      * @Route("/trick/detail/{id}/{slug}", name="app_detail")
      */
@@ -49,9 +48,9 @@ class TrickController extends AbstractController
         $userConnected = $this->getUser();
 
         $roleUserConnected = "";
-        
+                
         // Si un user est connecté
-        if ($userConnected) {
+        if ($userConnected) {    
             $isConnected = true;
 
             $roleUserConnected = $this->getUser()->getRoles()[0];
