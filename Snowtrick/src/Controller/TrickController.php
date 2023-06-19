@@ -18,12 +18,11 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 //Sotcker mon message en session
 use Symfony\Component\HttpFoundation\Session\Session;
-// Pour ma method de delete
-use Doctrine\Persistence\ManagerRegistry;
 // Transmission de mon formulaire comment
 use App\Form\CommentType;
 use App\Entity\Comment;
 use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 class TrickController extends AbstractController
 {
@@ -34,23 +33,18 @@ class TrickController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-
     /**
     * @Route("/trick/detail/{slug}", name="app_detail")
     */
-    public function detail(Request $request): Response
+    public function detail(Trick $trick, Request $request): Response
     {
-        // Récupérer le trick en utilisant le slug
-        $slug = $request->get('slug');
-        $selectedTrick = $this->getDoctrine()->getRepository(Trick::class)->findOneBy(['slug' => urlencode($slug)]);
-
         // Vérifier si le trick existe
-        if (!$selectedTrick) {
+        if (!$trick) {
             throw $this->createNotFoundException('Trick non trouvé !');
         }
-
+      
         /****************** Partie Commentaire ********************/ 
-        $comments = $selectedTrick->getComments();
+        $comments = $trick->getComments();
 
         // Mon formulaire de création de commentaires
         $comment = new Comment();
@@ -60,7 +54,7 @@ class TrickController extends AbstractController
         /* Lorsque le formulaire est soumis et valide */
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setDateCreate(new DateTime())->setUser($this->getUser());
-            $selectedTrick->addComment($comment);
+            $trick->addComment($comment);
 
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
@@ -69,30 +63,30 @@ class TrickController extends AbstractController
         }  
         /****************** Fin Partie Commentaire ********************/ 
 
+
+
         // Envoyer mes données à ma vue
         return $this->render('detail/index.html.twig', [
-            'trick' => $selectedTrick,
+            'trick' => $trick,
             'comment_form' => $form->createView(),
             'comments' => $comments
         ]);
     }
 
 
+    
     /**
      * ******************************************* Fonction pour Editer un Trick **********************
-     * @Route("/trick/edit/{id}/{slug}", name="app_edit")
+     * @Route("/trick/edit/{slug}", name="app_edit")
      */
-    public function edit(ManagerRegistry $doctrine, int $id, $slug, SluggerInterface $slugger, Request $request): Response
+    public function edit(Trick $trick,SluggerInterface $slugger, Request $request): Response
     {
-
         // Savoir si le user est authentifié ou non
         $userConnected = null !== $this->getUser();
 
         if ($userConnected) {
-            // Mon formulaire de modification de trick
-            $editForm = $doctrine->getRepository(Trick::class)->find($id);
 
-            $form = $this->createForm(TrickType::class, $editForm);
+            $form = $this->createForm(TrickType::class, $trick);
             $form->handleRequest($request);
             
 
@@ -105,7 +99,7 @@ class TrickController extends AbstractController
                     // Créer un nom pour le fichier
                     $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                     // Une fois le servide slugger injecté en debut de fonction, on peut s'en servir
-                    $safeFilename = $slugger->slug($originalFilename);
+                    $safeFilename = $this->$slugger->slug($originalFilename);
                     // Recuperer le nouveau filename qu'il vient de créer, avec son id et son extension
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
 
@@ -121,44 +115,17 @@ class TrickController extends AbstractController
 
                     // updates the 'brochureFilename' property to store the PDF file name
                     // instead of its contents
-                    $editForm->setImage($newFilename);
+                    $trick->setImage($newFilename);
                 }
 
-                $this->entityManager->persist($editForm);
+                $this->entityManager->persist($trick);
                 $this->entityManager->flush();
                 
                 // Changer la route plus tard pour /detail/{id}
                 return $this->redirectToRoute('app_home');
             }
 
-
-
-            // Recuperer mon trick selon son id
-            $trick = $doctrine->getRepository(Trick::class)->find($id);
-
-            
-
-
-            // Vérifiez si le slug passé dans l'URL correspond au slug généré à partir du titre de l'article
-            $trickSlug = $slugger->slug($trick->getTitle())->lower()->toString();
-            
-            if ($slug !== $trickSlug) {
-                // Redirigez vers l'URL avec le slug correct
-                return $this->redirectToRoute('app_edit', [
-                    'id' => $id,
-                    'slug' => $trickSlug,
-                ]);
-            }
-
-            // Erreur si trick n'existe pas
-            if (!$trick) {
-                echo "Aucun Trick n'a était récupéré";
-                die();
-            }
-
-
             return $this->render('edit/index.html.twig', [
-                'controller_name' => 'TrickController',
                 'trick' => $trick,
                 'edit_form' => $form->createView()
             ]);
@@ -172,7 +139,6 @@ class TrickController extends AbstractController
      ****************************************** Fonction pour Ajouter un Trick **********************
      * @Route("/trick/add", name="app_create")
      */
-
     public function add(Request $request, SluggerInterface $slugger): Response
     {
         // Set une variable isConnected pour verifier si un user est connecté
@@ -258,17 +224,14 @@ class TrickController extends AbstractController
     }
 
 
-
     /**
      * ****************************************** Fonction pour Supprimer un Trick **********************
      * @Route("/trick/delete/{id}", name="app_delete")
      */
-    public function delete(ManagerRegistry $doctrine, int $id): Response
+    public function delete(Trick $trick): Response
     {
         // Mon formulaire de modification de trick
-        $deleteTrick = $doctrine->getRepository(Trick::class)->find($id);
-        
-        $this->entityManager->remove($deleteTrick);
+        $this->entityManager->remove($trick);
         $this->entityManager->flush();
 
         return $this->redirectToRoute('app_home');
