@@ -16,9 +16,9 @@
 <!-- Affichage de ma liste de Tricks -->
 
     <!-- Creation Trick si user connecté -->
-    {% if isConnected %}
-        <a class="btn btn-primary" href="/trick/add" style="color: black;">Créer votre Figure</a>
-    {% endif %}
+    
+    <a class="btn btn-primary" href="/trick/add" style="color: black;">Créer votre Figure</a>
+    
 
 
 
@@ -45,52 +45,52 @@
                         <input type="hidden" value={{trick.id}}/>
 
                         <!-- Affichage du stylo et corbeille si connecté -->
-                        {% if isConnected %}
-                            <div style="display:flex;">
+                        
+                        <div style="display:flex;">
 
-                                <!-- Passer l'id et le titre en slug pour une url correcte  -->
-                                {% if idUserConnected == trick.user.id %}
-                                
+                            <!-- Passer l'id et le titre en slug pour une url correcte  -->
+                            {% if idUserConnected == trick.user.id %}
+                            
 
-                                    <a href="{{ path('app_edit', {'id': trick.id, 'slug': trick.title}) }}" class="btn btn-primary">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </a>
-                                    <input type="hidden" value={{trick.id}}/>
+                                <a href="{{ path('app_edit', {'id': trick.id, 'slug': trick.title}) }}" class="btn btn-primary">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <input type="hidden" value={{trick.id}}/>
 
-                                    <!-- Button trigger modal -->
-                                    <button value={{trick.id}} type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{trick.id}}">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-
-
-                                {% endif %}
-                                
-                            </div>
+                                <!-- Button trigger modal -->
+                                <button value={{trick.id}} type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{trick.id}}">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
 
 
-                            <!--************* Modal **************-->
-                            <div class="modal fade" id="exampleModal{{trick.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Ete vous sur ?</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-
-                                        <div class="modal-body">
-                                            <a href="/trick/delete/{{trick.id}}" style="margin-left:1rem; color:blue;">Supprimer ce Trick ?</a>
-                                        </div>
+                            {% endif %}
+                            
+                        </div>
 
 
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        </div>
+                        <!--************* Modal **************-->
+                        <div class="modal fade" id="exampleModal{{trick.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Ete vous sur ?</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <a href="/trick/delete/{{trick.id}}" style="margin-left:1rem; color:blue;">Supprimer ce Trick ?</a>
+                                    </div>
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                                     </div>
                                 </div>
                             </div>
-                        {% endif %}
+                        </div>
+                        
                     </div>
                 </div>
             {% endfor %}

@@ -3,85 +3,85 @@
 {% block title %}Modification Trick !{% endblock %}
 
 {% block body %}
-    {% if isConnected %}
-        {{ form_start(create_form) }}
-
-            <div class="container mt-5">  
-                <div class="row justify-content-center mt-5">          
-                    <div class="col-md-10 col-md-offset-1 mt-5 mb-4"> 
-                                    
-                        <div class="card mt-5">
-                            <!-- Image Trick-->
-                            
-
-
-                            <!-- Card Body -->
-                            <div class="card-body">
-
-                                <!-- Nom Trick / Date Trick / Groupe Trick -->
-                                <ul class="list-inline trick-data">
-                                    <li class="list-inline-item">
-                                        <h5 class="card-title">{{ form_row(create_form.title) }}</h5>
-                                    </li> | 
     
+    {{ form_start(create_form) }}
 
-                                    <li class="list-inline-item">
-                                        {{ form_row(create_form.groupe) }}
-                                    </li>
-                                </ul>
+        <div class="container mt-5">  
+            <div class="row justify-content-center mt-5">          
+                <div class="col-md-10 col-md-offset-1 mt-5 mb-4"> 
+                                
+                    <div class="card mt-5">
+                        <!-- Image Trick-->
+                        
 
-                                <hr>
-                            
-                                <!--************** Image et Vidéo du Trick *************-->
-                                <div class="row d-none d-lg-flex load-media">
 
-                                    <!-- Image du trick -->
-                                    <div class="col-lg-6 col-md-12 mb-4">
-                                        
-                                        {{ form_row(create_form.image) }}
-                                    </div> 
+                        <!-- Card Body -->
+                        <div class="card-body">
+
+                            <!-- Nom Trick / Date Trick / Groupe Trick -->
+                            <ul class="list-inline trick-data">
+                                <li class="list-inline-item">
+                                    <h5 class="card-title">{{ form_row(create_form.title) }}</h5>
+                                </li> | 
+
+
+                                <li class="list-inline-item">
+                                    {{ form_row(create_form.groupe) }}
+                                </li>
+                            </ul>
+
+                            <hr>
+                        
+                            <!--************** Image et Vidéo du Trick *************-->
+                            <div class="row d-none d-lg-flex load-media">
+
+                                <!-- Image du trick -->
+                                <div class="col-lg-6 col-md-12 mb-4">
                                     
-                                    <!-- Video du trick -->
-                                    <div class="col-lg-6 col-md-12 mb-4">
-                                        
-                                        {{ form_row(create_form.video) }}
-                                    </div>                                             
-                                </div>  
+                                    {{ form_row(create_form.image) }}
+                                </div> 
+                                
+                                <!-- Video du trick -->
+                                <div class="col-lg-6 col-md-12 mb-4">
+                                    
+                                    {{ form_row(create_form.video) }}
+                                </div>                                             
+                            </div>  
 
 
-                                <!-- Bouton Masquer et Afficher les medias-->
-                                <div class="text-center">
-                                    <a href="#" id="loadMedia" class="d-md-block d-lg-none">
-                                        <button class="btn btn-outline-secondary">Afficher les médias</button>
-                                    </a>
-                                    <a href="#" id="hideMedia" class="d-none d-md-none d-lg-none">
-                                        <button class="btn btn-outline-secondary mt-3">Masquer les médias</button>
-                                    </a>
-                                </div>
-                                                
-                                <hr>
-
-                                <!--************* Description du Trick ************-->
-                                <h5 class="card-title">Description</h5>
-
-                                <p class="card-text text-justify"> 
-                                    {{ form_row(create_form.description) }}
-                                </p>                                    
+                            <!-- Bouton Masquer et Afficher les medias-->
+                            <div class="text-center">
+                                <a href="#" id="loadMedia" class="d-md-block d-lg-none">
+                                    <button class="btn btn-outline-secondary">Afficher les médias</button>
+                                </a>
+                                <a href="#" id="hideMedia" class="d-none d-md-none d-lg-none">
+                                    <button class="btn btn-outline-secondary mt-3">Masquer les médias</button>
+                                </a>
                             </div>
+                                            
+                            <hr>
 
+                            <!--************* Description du Trick ************-->
+                            <h5 class="card-title">Description</h5>
 
-                            <div class="d-flex justify-content-center mb-3 w-auto mx-auto" style="background-color: cadetblue;border-radius: 40px;">
-                                {{ form_row(create_form.submit, {'attr': {'class': 'form-control'}}) }}
-                            </div>
-                            
+                            <p class="card-text text-justify"> 
+                                {{ form_row(create_form.description) }}
+                            </p>                                    
                         </div>
 
-                    </div>     
-                </div>           
-            </div>
 
-        {{ form_end(create_form) }}
-    {% endif %}
+                        <div class="d-flex justify-content-center mb-3 w-auto mx-auto" style="background-color: cadetblue;border-radius: 40px;">
+                            {{ form_row(create_form.submit, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        
+                    </div>
+
+                </div>     
+            </div>           
+        </div>
+
+    {{ form_end(create_form) }}
+    
 
 
     <!-- Jquery -->

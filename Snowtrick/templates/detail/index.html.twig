@@ -76,17 +76,14 @@
 
                     
                         <!-- Formulaire de creation de commentaire si user connecté OU lien pour s'incrire ou se connecté -->
-                        <div class="col-md-12 px-0 mb-30">
-                            <div class="comments text-center p-3">
-                                <!-- Formulaire de creation de commentaire si user connecté -->
-                                {{ form(comment_form, {'attr': {'class': 'd-flex'}}) }}  
+                        {% if app.user %}
+                            <div class="col-md-12 px-0 mb-30">
+                                <div class="comments text-center p-3">
+                                    <!-- Formulaire de creation de commentaire si user connecté -->
+                                    {{ form(comment_form, {'attr': {'class': 'd-flex'}}) }}  
+                                </div>
                             </div>
-                        </div>
-                    
-
-
-
-
+                        {% endif %}
                     
                     <!--************* Partie Commentaire ***********-->
                     <span class="comments-anchor" id="comments-block"></span>
