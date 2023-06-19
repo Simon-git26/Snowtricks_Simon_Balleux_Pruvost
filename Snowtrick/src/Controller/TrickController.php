@@ -23,9 +23,7 @@ use Doctrine\Persistence\ManagerRegistry;
 // Transmission de mon formulaire comment
 use App\Form\CommentType;
 use App\Entity\Comment;
-
-
-
+use DateTime;
 
 class TrickController extends AbstractController
 {
@@ -34,70 +32,31 @@ class TrickController extends AbstractController
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->entityManager = $entityManager;
+        // passer le slugger
     }
 
 
+    /*    */
     /**
-     * @Route("/trick/detail/{id}/{slug}", name="app_detail")
+     * enlever l id
+     * 
+     * @Route("/trick/detail/{slug}", name="app_detail")
+     * 
      */
-    public function detail(ManagerRegistry $doctrine, int $id, $slug, SluggerInterface $slugger, Request $request): Response
+    public function detail(Trick $trick, Request $request): Response
     {
-        // Set une variable isConnected pour verifier si un user est connecté
-        // Sert à declarer ma logique dans le controller au lieu de le faire dans Twig
-        $isConnected = false;
-        $userConnected = $this->getUser();
-
-        $roleUserConnected = "";
-                
-        // Si un user est connecté
-        if ($userConnected) {    
-            $isConnected = true;
-
-            $roleUserConnected = $this->getUser()->getRoles()[0];
-        }
-
-        // Meme principe que pour user connecté mais la pour savoir si son role est admin
-        $isAdmin = false;
-
-        if ($roleUserConnected == "ROLE_ADMIN") {
-            $isAdmin = true;
-        }
-        
-        
         // Mon formulaire de creation de commentaires
-        $commentForm = new Comment();
+        $comment = new Comment();
 
-        $form = $this->createForm(CommentType::class, $commentForm);
+        $form = $this->createForm(CommentType::class, $comment);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // Récupérer l'id du trick et l'attribuer au champs trick du form
-            $getIdTrick = $doctrine->getRepository(Trick::class)->find($id);
-            $idTrick = $form->get('trick')->getData();
-            $idTrick = $getIdTrick;
-            $commentForm->setTrick($idTrick);
+            $comment->setDateCreate(new DateTime())->setUser($this->getUser());
+            $trick->addComment($comment);
 
-            // Récupérer l'id du user connecté et l'attribuer au champs user du form
-            $userConnected = $this->getUser();
-            $idUser = $form->get('user')->getData();
-            $idUser = $userConnected;
-            $commentForm->setUser($idUser);
-
-            // Attribué la date de la creation à mon champ date_create
-            $date= new \DateTime;
-            $dateCreate = $form->get('date_create')->getData();
-            $dateCreate = $date;
-            $commentForm->setDateCreate($dateCreate);
-
-            // Attribué la valeur 0 par de isActif pour mon champ is_actif
-            $actif= 0;
-            $isActif = $form->get('is_actif')->getData();
-            $isActif = $actif;
-            $commentForm->setIsActif($isActif);
-
-
-            $this->entityManager->persist($commentForm);
             $this->entityManager->flush();
 
             // Changer la route plus tard pour /detail/{id}
@@ -105,42 +64,11 @@ class TrickController extends AbstractController
         }
 
 
-        // Recuperer mon trick selon son id
-        $trick = $doctrine->getRepository(Trick::class)->find($id);
-
-        // Vérifiez si le slug passé dans l'URL correspond au slug généré à partir du titre de l'article
-        $trickSlug = $slugger->slug($trick->getTitle())->lower()->toString();
-        
-        if ($slug !== $trickSlug) {
-            // Redirigez vers l'URL avec le slug correct
-            return $this->redirectToRoute('app_detail', [
-                'id' => $id,
-                'slug' => $trickSlug,
-            ]);
-        }
-
-
-        // Récuperer tous les commentaires ou trick_id correspond à l'id du trick en question sur la page detail
-        $comments = $doctrine->getRepository(Comment::class)->findBy([
-            'trick' => $id
-        ]);
-
-
-        // Erreur si trick n'existe pas
-        if (!$trick) {
-            echo "Aucun Trick n'a était récupéré";
-            die();
-        }
-
         // Envoyer mes donnée a ma view
         // Passé ma var isConnected pour m'en servir dans Twig ainsi que isAdmin pour mon btn corbeille commentaire
         return $this->render('detail/index.html.twig', [
-            'controller_name' => 'TrickController',
             'trick' => $trick,
-            'comments' => $comments,
             'comment_form' => $form->createView(),
-            'isConnected' => $isConnected,
-            'isAdmin' => $isAdmin
         ]);
         
     }
@@ -320,7 +248,6 @@ class TrickController extends AbstractController
 
 
         return $this->render('create/index.html.twig', [
-            'controller_name' => 'TrickController',
             'create_form' => $form->createView(),
             'isConnected' => $isConnected
         ]);

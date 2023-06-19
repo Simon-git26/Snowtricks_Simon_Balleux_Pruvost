@@ -112,7 +112,7 @@
                                                             {{ comment.getDateCreate|date("m/d/Y") }}
 
                                                             <!-- Si User connecté + user admin -->
-                                                            {% if isAdmin  %}
+                                                            {% if is_granted("ROLE_ADMIN")  %}
                                                                 <a href="/comment/delete/{{comment.id}}" style="color:red;"><i class="fa-solid fa-trash-can"></i></a>
                                                                 
                                                                 <input type="hidden" value={{comment.id}}/>

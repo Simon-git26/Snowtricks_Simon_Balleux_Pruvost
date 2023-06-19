@@ -44,6 +44,7 @@ class AppFixtures extends Fixture
             $tricks->setTitle('Trick '.$i);
             $tricks->setDescription('Description du trick '.$i);
             $tricks->setGroupe('Groupe '.$i);
+            $tricks->setSlug(urlencode($tricks->getTitle()).$i);
             // Object DatetimeInterface et valeur par defaut definit en tant que CURRENT_TIMESTAMP dans mon entité
             $tricks->setDateCreate(new \DateTime);
             $manager->persist($tricks);
