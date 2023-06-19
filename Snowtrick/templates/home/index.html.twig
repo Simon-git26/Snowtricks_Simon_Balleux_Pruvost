@@ -38,7 +38,7 @@
                     <div class="card-body d-flex justify-content-between">
 
                         <!-- Passer l'id et le titre en slug pour une url correcte  -->
-                        <a href="{{ path('app_detail', {'id': trick.id, 'slug': trick.title}) }}">
+                        <a href="{{ path('app_detail', {'slug': trick.title}) }}">
                             {{ trick.getTitle|e }}
                         </a>
 

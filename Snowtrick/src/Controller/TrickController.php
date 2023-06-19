@@ -32,45 +32,49 @@ class TrickController extends AbstractController
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->entityManager = $entityManager;
-        // passer le slugger
     }
 
 
-    /*    */
     /**
-     * enlever l id
-     * 
-     * @Route("/trick/detail/{slug}", name="app_detail")
-     * 
-     */
-    public function detail(Trick $trick, Request $request): Response
+    * @Route("/trick/detail/{slug}", name="app_detail")
+    */
+    public function detail(Request $request): Response
     {
-        // Mon formulaire de creation de commentaires
-        $comment = new Comment();
+        // Récupérer le trick en utilisant le slug
+        $slug = $request->get('slug');
+        $selectedTrick = $this->getDoctrine()->getRepository(Trick::class)->findOneBy(['slug' => urlencode($slug)]);
 
-        $form = $this->createForm(CommentType::class, $comment);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $comment->setDateCreate(new DateTime())->setUser($this->getUser());
-            $trick->addComment($comment);
-
-            $this->entityManager->flush();
-
-            // Changer la route plus tard pour /detail/{id}
-            return $this->redirectToRoute('app_home');
+        // Vérifier si le trick existe
+        if (!$selectedTrick) {
+            throw $this->createNotFoundException('Trick non trouvé !');
         }
 
+        /****************** Partie Commentaire ********************/ 
+        $comments = $selectedTrick->getComments();
 
-        // Envoyer mes donnée a ma view
-        // Passé ma var isConnected pour m'en servir dans Twig ainsi que isAdmin pour mon btn corbeille commentaire
+        // Mon formulaire de création de commentaires
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        /* Lorsque le formulaire est soumis et valide */
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setDateCreate(new DateTime())->setUser($this->getUser());
+            $selectedTrick->addComment($comment);
+
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_home');
+        }  
+        /****************** Fin Partie Commentaire ********************/ 
+
+        // Envoyer mes données à ma vue
         return $this->render('detail/index.html.twig', [
-            'trick' => $trick,
+            'trick' => $selectedTrick,
             'comment_form' => $form->createView(),
+            'comments' => $comments
         ]);
-        
     }
 
 

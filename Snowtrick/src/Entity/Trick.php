@@ -54,9 +54,9 @@ class Trick
     private $dateCreate;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick_id")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", cascade={"persist"})
      * @ORM\JoinColumn(onDelete="CASCADE") 
-     */
+    */
     private $comments;
 
     /**

@@ -4,7 +4,9 @@
 
 {% block body %}
     <!-- Detail du trick-->
+
     {% if trick %}
+    
         <!-- Trick -->
         <div class="container mt-5">  
             <div class="row justify-content-center mt-5">          
@@ -72,7 +74,7 @@
                     </div>
 
 
-                    {% if isConnected %}
+                    
                         <!-- Formulaire de creation de commentaire si user connecté OU lien pour s'incrire ou se connecté -->
                         <div class="col-md-12 px-0 mb-30">
                             <div class="comments text-center p-3">
@@ -80,7 +82,7 @@
                                 {{ form(comment_form, {'attr': {'class': 'd-flex'}}) }}  
                             </div>
                         </div>
-                    {% endif %}
+                    
 
 
 
@@ -94,6 +96,8 @@
                             <div class="entry-comments">
                                 <ul class="entry-comments-list list-unstyled">
                                     <span class="comment-anchor" id="10"></span>
+
+                                    
 
                                     <!--**************** Affichage des commentaires ******************-->
                                     {% if comments %}
