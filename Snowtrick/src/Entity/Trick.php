@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=TricksRepository::class)
  * @UniqueEntity("title")
- * @UniqueEntity("slug")
  */
 class Trick
 {
@@ -69,8 +68,7 @@ class Trick
 
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Assert\Unique
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $slug;
 
@@ -203,15 +201,19 @@ class Trick
         return $this;
     }
 
-    public function getSlug(): ?int
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
+
+
+
+
 }

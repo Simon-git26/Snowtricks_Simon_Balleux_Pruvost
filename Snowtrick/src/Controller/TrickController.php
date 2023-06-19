@@ -137,6 +137,8 @@ class TrickController extends AbstractController
         // Recuperer mon trick selon son id
         $trick = $doctrine->getRepository(Trick::class)->find($id);
 
+        
+
 
         // Vérifiez si le slug passé dans l'URL correspond au slug généré à partir du titre de l'article
         $trickSlug = $slugger->slug($trick->getTitle())->lower()->toString();
@@ -192,7 +194,20 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+
+            //dd($form->getData());
+
+            //dd($form->getErrors());
+
+
             if($form->isValid()) {
+
+                // Generer mon slug
+                //enregistrer en base mon slug -> qui est un urlencode(de mon titre de trick)
+
+                // echo 'isvalid';
+                // die();
+
                 // Attribué la date de la creation
                 $date= new \DateTime;
                 $createForm->setDateCreate($date);
@@ -234,6 +249,7 @@ class TrickController extends AbstractController
 
                 // Ajouter le message de succès à la variable de session
                 $session->getFlashBag()->add('success', 'Votre trick a été créé avec succès.');
+
 
                 // Changer la route plus tard pour /detail/{id}
                 return $this->redirectToRoute('app_home');
