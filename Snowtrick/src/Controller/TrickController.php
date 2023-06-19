@@ -172,7 +172,7 @@ class TrickController extends AbstractController
      * @Route("/trick/add", name="app_create")
      */
 
-     public function add(Request $request, SluggerInterface $slugger): Response
+    public function add(Request $request, SluggerInterface $slugger): Response
     {
         // Set une variable isConnected pour verifier si un user est connecté
         // Sert à declarer ma logique dans le controller au lieu de le faire dans Twig
@@ -194,19 +194,10 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
             //dd($form->getData());
-
             //dd($form->getErrors());
-
-
+            //dd($form->getErrors(true));
             if($form->isValid()) {
-
-                // Generer mon slug
-                //enregistrer en base mon slug -> qui est un urlencode(de mon titre de trick)
-
-                // echo 'isvalid';
-                // die();
 
                 // Attribué la date de la creation
                 $date= new \DateTime;
