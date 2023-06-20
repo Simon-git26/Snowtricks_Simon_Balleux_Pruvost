@@ -36,7 +36,7 @@ class TrickType extends AbstractType
             
 
             // Ajouter un dl d'image
-            ->add('medias', FileType::class, [
+            ->add('images', FileType::class, [
                 'label' => 'image',
                 'multiple' => true,
                 'mapped' => false,

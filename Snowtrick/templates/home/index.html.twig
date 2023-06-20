@@ -31,8 +31,8 @@
                     <div class="card-header p-0">
 
                         <!-- Image Trick -->
-                        {% if trick.medias.first %}
-                            {% set image = trick.medias.getValues[0] %}
+                        {% if trick.images.first %}
+                            {% set image = trick.images.getValues[0] %}
                             <div>
                                 <img src="{{ asset('uploads/image_user/') }}{{ image.name|e }}" alt="" style="width: 100%;height:12rem;">
                             </div>

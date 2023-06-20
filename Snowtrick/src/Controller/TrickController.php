@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 // Transmission de mon formulaire comment
 use App\Form\CommentType;
 use App\Entity\Comment;
-use App\Entity\Medias;
+use App\Entity\Images;
 use DateTime;
 
 class TrickController extends AbstractController
@@ -89,7 +89,7 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Image uploader //
             /* Recuperer ma propriete image */
-            $images = $form->get('medias')->getData();
+            $images = $form->get('images')->getData();
 
             // Je boucle sur les images recu
             foreach($images as $image) {
@@ -104,11 +104,11 @@ class TrickController extends AbstractController
 
 
                 // Stocker le nom de l'image dans bdd
-                // Nouvelle instance de medias
-                $img = new Medias();
+                // Nouvelle instance de images
+                $img = new Images();
                 $img->setName($fichier);
                 // Ajouter l'image
-                $trick->addMedia($img);
+                $trick->addImage($img);
             }
 
             $this->entityManager->persist($trick);
@@ -157,7 +157,7 @@ class TrickController extends AbstractController
                 
                 // Image uploader //
                 /* Recuperer ma propriete image */
-                $images = $form->get('medias')->getData();
+                $images = $form->get('images')->getData();
 
                 // Je boucle sur les images recu
                 foreach($images as $image) {
@@ -171,12 +171,12 @@ class TrickController extends AbstractController
                     );
 
                     // Stocker le nom de l'image dans bdd
-                    // Nouvelle instance de medias
-                    $img = new Medias();
+                    // Nouvelle instance de images
+                    $img = new Images();
                     $img->setName($fichier);
 
                     // Ajouter l'image
-                    $createForm->addMedia($img);
+                    $createForm->addImage($img);
                 }
 
                 /*
@@ -249,9 +249,9 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/delete/image/{id}", name="app_delete_image")
      */
-    public function deleteImage(Medias $medias): Response
+    public function deleteImage(Images $images): Response
     {   
-        $this->entityManager->remove($medias);
+        $this->entityManager->remove($images);
         $this->entityManager->flush();
 
         return $this->redirectToRoute('app_home');

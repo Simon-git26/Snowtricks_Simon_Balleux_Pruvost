@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Medias;
+use App\Entity\Images;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Medias>
+ * @extends ServiceEntityRepository<Images>
  *
- * @method Medias|null find($id, $lockMode = null, $lockVersion = null)
- * @method Medias|null findOneBy(array $criteria, array $orderBy = null)
- * @method Medias[]    findAll()
- * @method Medias[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Images|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Images|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Images[]    findAll()
+ * @method Images[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MediasRepository extends ServiceEntityRepository
+class ImagesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Medias::class);
+        parent::__construct($registry, Images::class);
     }
 
-    public function add(Medias $entity, bool $flush = false): void
+    public function add(Images $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class MediasRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Medias $entity, bool $flush = false): void
+    public function remove(Images $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class MediasRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Medias[] Returns an array of Medias objects
+//     * @return Images[] Returns an array of Images objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class MediasRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Medias
+//    public function findOneBySomeField($value): ?Images
 //    {
 //        return $this->createQueryBuilder('m')
 //            ->andWhere('m.exampleField = :val')

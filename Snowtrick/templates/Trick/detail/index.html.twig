@@ -20,10 +20,10 @@
                  
 
                         <!-- Image Trick-->
-                        {% if trick.medias.first %}
-                            {% set media = trick.medias.getValues[0] %}
+                        {% if trick.images.first %}
+                            {% set image = trick.images.getValues[0] %}
                             <div>
-                                <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ media.name|e }}" alt="" style="width: 100%;height:12rem;">
+                                <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ image.name|e }}" alt="" style="width: 100%;height:12rem;">
                             </div>
                         {% endif %}
 
@@ -55,12 +55,12 @@
 
 
                                 <!--************** Image et Vidéo du Trick *************-->
-                                {% for media in trick.medias %}
+                                {% for image in trick.images %}
                                     <!--************** Image et Vidéo du Trick *************-->
                                         <!-- Image du trick -->
                                         <div class="col-lg-6 col-md-12 mb-4">
                                             <div>
-                                                <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ media.name|e }}" alt="" style="width: 100%;height:12rem;">
+                                                <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ image.name|e }}" alt="" style="width: 100%;height:12rem;">
                                             </div>
                                         </div>                                
                                 {% endfor %}

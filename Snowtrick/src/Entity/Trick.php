@@ -67,15 +67,15 @@ class Trick
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="tricks", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="tricks", orphanRemoval=true, cascade={"persist"})
      */
-    private $medias;
+    private $images;
 
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->medias = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,29 +202,29 @@ class Trick
     }
 
     /**
-     * @return Collection<int, Medias>
+     * @return Collection<int, Images>
      */
-    public function getMedias(): Collection
+    public function getImages(): Collection
     {
-        return $this->medias;
+        return $this->images;
     }
 
-    public function addMedia(Medias $media): self
+    public function addImage(Images $image): self
     {
-        if (!$this->medias->contains($media)) {
-            $this->medias[] = $media;
-            $media->setTricks($this);
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setTricks($this);
         }
 
         return $this;
     }
 
-    public function removeMedia(Medias $media): self
+    public function removeImage(Images $image): self
     {
-        if ($this->medias->removeElement($media)) {
+        if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
-            if ($media->getTricks() === $this) {
-                $media->setTricks(null);
+            if ($image->getTricks() === $this) {
+                $image->setTricks(null);
             }
         }
 

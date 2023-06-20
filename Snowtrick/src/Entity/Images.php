@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\MediasRepository;
+use App\Repository\ImagesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MediasRepository::class)
+ * @ORM\Entity(repositoryClass=ImagesRepository::class)
  */
-class Medias
+class Images
 {
     /**
      * @ORM\Id
@@ -23,7 +23,7 @@ class Medias
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="medias")
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images")
      * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
      */
     private $tricks;
