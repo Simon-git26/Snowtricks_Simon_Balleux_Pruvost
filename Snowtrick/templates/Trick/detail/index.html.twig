@@ -66,10 +66,16 @@
                                 {% endfor %}
 
                                 
-                                <!-- Video du trick -->
-                                <div class="col-lg-6 col-md-12 mb-4">
-                                    <iframe class="w-100 h-100" src="{{ trick.video|e }}"></iframe>
-                                </div>                                             
+                                
+
+                                {% for video in trick.videos %}
+                                    <!-- Video du trick -->
+                                    <div class="col-lg-6 col-md-12 mb-4">
+                                        <iframe class="w-100 h-100" src="{{ video.lien|e }}"></iframe>
+                                    </div>                             
+                                {% endfor %}
+                                
+                                                                           
                             </div>  
 
 

@@ -39,11 +39,6 @@ class Trick
     private $groupe;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $video;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true, options={"default": "CURRENT_TIMESTAMP"})
      */
     private $dateCreate;
@@ -71,11 +66,17 @@ class Trick
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="tricks", orphanRemoval=true, cascade={"persist"})
+     */
+    private $videos;
+
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,18 +118,6 @@ class Trick
     public function setGroupe(string $groupe): self
     {
         $this->groupe = $groupe;
-
-        return $this;
-    }
-
-    public function getVideo(): ?string
-    {
-        return $this->video;
-    }
-
-    public function setVideo(string $video): self
-    {
-        $this->video = $video;
 
         return $this;
     }
@@ -225,6 +214,36 @@ class Trick
             // set the owning side to null (unless already changed)
             if ($image->getTricks() === $this) {
                 $image->setTricks(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Videos>
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Videos $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTricks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Videos $video): self
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getTricks() === $this) {
+                $video->setTricks(null);
             }
         }
 

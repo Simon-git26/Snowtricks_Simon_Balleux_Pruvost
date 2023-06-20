@@ -5,8 +5,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Persistence\ManagerRegistry;
-
 
 // Appel de mon entity pour pouvoir utiliser ces method
 use App\Entity\Trick;
@@ -22,6 +20,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use App\Form\CommentType;
 use App\Entity\Comment;
 use App\Entity\Images;
+use App\Entity\Videos;
 use DateTime;
 
 class TrickController extends AbstractController
@@ -87,6 +86,25 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //dd($form->getData()); // dd($form->getErrors()); // dd($form->getErrors(true));
+            
+
+            // Video uploader //
+            $videos = $form->get('videos')->getData();
+            $arrayVideo = explode(';', $videos);
+            
+            // Je boucle sur l'explode des videos'
+            foreach($arrayVideo as $video) {
+                // Nouvelle instance de videos
+                $vid = new Videos();
+                $vid->setLien($video);
+
+                // Ajouter la video
+                $trick->addVideo($vid);
+            }
+
+
             // Image uploader //
             /* Recuperer ma propriete image */
             $images = $form->get('images')->getData();
@@ -144,7 +162,6 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted()) {
             //dd($form->getData()); // dd($form->getErrors()); // dd($form->getErrors(true));
-
             if($form->isValid()) {  
 
                 // Attribué la date de la creation
@@ -155,6 +172,23 @@ class TrickController extends AbstractController
                 $userConnected = $this->getUser();
                 $createForm->setUser($userConnected);
                 
+
+                // Video uploader //
+                $videos = $form->get('videos')->getData();
+                $arrayVideo = explode(';', $videos);
+                
+                // Je boucle sur l'explode des videos recu
+                foreach($arrayVideo as $video) {
+                 
+                    // Nouvelle instance de video
+                    $vid = new Videos();
+                    $vid->setLien($video);
+
+                    // Ajouter la video
+                    $createForm->addVideo($vid);
+                }
+
+
                 // Image uploader //
                 /* Recuperer ma propriete image */
                 $images = $form->get('images')->getData();
@@ -178,31 +212,6 @@ class TrickController extends AbstractController
                     // Ajouter l'image
                     $createForm->addImage($img);
                 }
-
-                /*
-                if ($imageFile) {
-                    // Créer un nom pour le fichier
-                    $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    // Une fois le servide slugger injecté en debut de fonction, on peut s'en servir
-                    $safeFilename = $slugger->slug($originalFilename);
-                    // Recuperer le nouveau filename qu'il vient de créer, avec son id et son extension
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
-
-                    try {
-                        // Stocke le fichier au niveau du dossier selectionné ici
-                        $imageFile->move(
-                            $this->getParameter('image_user'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-
-                    // updates the 'brochureFilename' property to store the PDF file name
-                    // instead of its contents
-                    $createForm->setImage($newFilename);
-                }
-                */
 
 
                 $this->entityManager->persist($createForm);
@@ -252,6 +261,18 @@ class TrickController extends AbstractController
     public function deleteImage(Images $images): Response
     {   
         $this->entityManager->remove($images);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_home');
+    }
+
+    
+    /**
+     * @Route("/trick/delete/video/{id}", name="app_delete_video")
+     */
+    public function deleteVideo(Videos $videos): Response
+    {   
+        $this->entityManager->remove($videos);
         $this->entityManager->flush();
 
         return $this->redirectToRoute('app_home');

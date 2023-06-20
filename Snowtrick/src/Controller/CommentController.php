@@ -6,7 +6,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
 // Appel de mon entity pour pouvoir utiliser ces method
 use App\Entity\Comment;
 // Soumission du formulaire et persistance des données dans la BDD

@@ -72,16 +72,46 @@
                                     {{ form_row(edit_form.images) }}  
                                 </div>
                             </div> 
-                            
-                            
 
 
 
-                            <!-- Video du trick -->
+
+
+
+
+
+
+                            {% for video in trick.videos %}
+                                <!--************** Image et Vidéo du Trick *************-->
+                                <div class="row d-none d-lg-flex load-media">
+
+                                    <!-- Video du trick -->
+                                    <div class="col-lg-6 col-md-12 mb-4">
+                                        <iframe class="w-100 h-75" src="{{ video.lien|e }}"></iframe>
+                                    </div>   
+
+
+                                    <div class="col-lg-6 col-md-12 mb-4">
+                                        <div>
+                                           <!-- Passer l'id et le titre en slug pour une url correcte  -->
+                                            <a href="{{ path('app_delete_video', {'id': video.id}) }}" class="btn btn-primary">
+                                                Supprimer cette Video ?
+                                            </a>
+                                            <input type="hidden" value={{video.id}}/>    
+                                        </div>
+                                    </div>   
+
+                                </div>
+   
+                            {% endfor %}
+
                             <div class="col-lg-6 col-md-12 mb-4">
-                                <iframe class="w-100 h-75" src="{{ trick.video|e }}"></iframe>
-                                {{ form_row(edit_form.video) }}
-                            </div>   
+                                <div>
+                                    {{ form_row(edit_form.videos) }}  
+                                </div>
+                            </div>
+                            
+                            
 
 
                             <!-- Bouton Masquer et Afficher les medias-->

@@ -63,8 +63,10 @@ class TrickType extends AbstractType
 
 
             /* video*/
-            ->add('video', null, [
-                'label' => 'Url de la vidéo',
+            ->add('videos', TextType::class, [
+                'label' => 'Séparer les urls vidéo par point-virgule ;',
+                'mapped' => false,
+                'required' => false,
             ])
             
 
