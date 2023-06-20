@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\All;
 
 // Personalisation de mon formulaire
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -32,25 +33,31 @@ class TrickType extends AbstractType
             ])
 
             
-
             
+
             // Ajouter un dl d'image
-            ->add('image', FileType::class, [
+            ->add('medias', FileType::class, [
                 'label' => 'image',
+                'multiple' => true,
                 'mapped' => false,
                 'required' => false,
-                'data_class' => null,
 
                 'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/jpg',
-                            'image/jpeg'
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image',
+                    new All([
+                        'constraints' => [
+                            new File([
+                                'maxSize' => '1024k',
+                                'mimeTypes' => [
+                                    'image/png',
+                                    'image/jpg',
+                                    'image/jpeg'
+                                ],
+                                'mimeTypesMessage' => 'Please upload a valid image',
+                            ])
+                        ]
                     ])
+
+                    
                 ]
             ])
 

@@ -39,11 +39,6 @@ class Trick
     private $groupe;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $image;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $video;
@@ -71,10 +66,16 @@ class Trick
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="tricks", orphanRemoval=true, cascade={"persist"})
+     */
+    private $medias;
+
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->medias = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,18 +117,6 @@ class Trick
     public function setGroupe(string $groupe): self
     {
         $this->groupe = $groupe;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -211,6 +200,38 @@ class Trick
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Medias>
+     */
+    public function getMedias(): Collection
+    {
+        return $this->medias;
+    }
+
+    public function addMedia(Medias $media): self
+    {
+        if (!$this->medias->contains($media)) {
+            $this->medias[] = $media;
+            $media->setTricks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedia(Medias $media): self
+    {
+        if ($this->medias->removeElement($media)) {
+            // set the owning side to null (unless already changed)
+            if ($media->getTricks() === $this) {
+                $media->setTricks(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 
 }

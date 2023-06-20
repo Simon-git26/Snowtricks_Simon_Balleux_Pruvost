@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 // Appel de mon entity pour pouvoir utiliser ces method
@@ -14,15 +15,14 @@ use App\Form\TrickType;
 // Soumission du formulaire et persistance des données dans la BDD
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\String\Slugger\SluggerInterface;
+
 //Sotcker mon message en session
 use Symfony\Component\HttpFoundation\Session\Session;
 // Transmission de mon formulaire comment
 use App\Form\CommentType;
 use App\Entity\Comment;
+use App\Entity\Medias;
 use DateTime;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 class TrickController extends AbstractController
 {
@@ -79,33 +79,36 @@ class TrickController extends AbstractController
      * ******************************************* Fonction pour Editer un Trick **********************
      * @Route("/trick/edit/{slug}", name="app_edit")
      */
-    public function edit(Trick $trick,SluggerInterface $slugger, Request $request): Response
+    public function edit(Trick $trick, Request $request): Response
     {
-       // Pas besoin de check si user existe car route securisé avec IS_AUTHENTICATED_FULLY 
+        // Pas besoin de check si user existe car route securisé avec IS_AUTHENTICATED_FULLY 
 
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
         
-
         if ($form->isSubmitted() && $form->isValid()) {
             // Image uploader //
             /* Recuperer ma propriete image */
-            $imageFile = $form->get('image')->getData();
+            $images = $form->get('medias')->getData();
 
-            if ($imageFile) {
-
+            // Je boucle sur les images recu
+            foreach($images as $image) {
                 // Je genere un nouveau nom de fichier
-                $fichier = md5(uniqid()) . '.' . $imageFile->guessExtension();
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
                 // Je copie le fichier dans le dossier uploads
-                $imageFile->move(
+                $image->move(
                     $this->getParameter('image_user'),
                     $fichier
                 );
 
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $trick->setImage($fichier);
+
+                // Stocker le nom de l'image dans bdd
+                // Nouvelle instance de medias
+                $img = new Medias();
+                $img->setName($fichier);
+                // Ajouter l'image
+                $trick->addMedia($img);
             }
 
             $this->entityManager->persist($trick);
@@ -118,7 +121,8 @@ class TrickController extends AbstractController
         return $this->render('Trick/edit/index.html.twig', [
             'trick' => $trick,
             'edit_form' => $form->createView()
-        ]); 
+        ]);
+
     }
 
 
@@ -126,10 +130,10 @@ class TrickController extends AbstractController
      ****************************************** Fonction pour Ajouter un Trick **********************
      * @Route("/trick/add", name="app_create")
      */
-    public function add(Request $request, SluggerInterface $slugger): Response
+    public function add(Request $request): Response
     {
         // Pas besoin de check si user existe car route securisé avec IS_AUTHENTICATED_FULLY
-
+     
         $session = new Session();
 
         // Mon formulaire de modification de trick
@@ -139,10 +143,9 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            //dd($form->getData());
-            //dd($form->getErrors());
-            //dd($form->getErrors(true));
-            if($form->isValid()) {
+            //dd($form->getData()); // dd($form->getErrors()); // dd($form->getErrors(true));
+
+            if($form->isValid()) {  
 
                 // Attribué la date de la creation
                 $date= new \DateTime;
@@ -154,8 +157,29 @@ class TrickController extends AbstractController
                 
                 // Image uploader //
                 /* Recuperer ma propriete image */
-                $imageFile = $form->get('image')->getData();
+                $images = $form->get('medias')->getData();
 
+                // Je boucle sur les images recu
+                foreach($images as $image) {
+                    // Je genere un nouveau nom de fichier
+                    $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+
+                    // Je copie le fichier dans le dossier uploads
+                    $image->move(
+                        $this->getParameter('image_user'),
+                        $fichier
+                    );
+
+                    // Stocker le nom de l'image dans bdd
+                    // Nouvelle instance de medias
+                    $img = new Medias();
+                    $img->setName($fichier);
+
+                    // Ajouter l'image
+                    $createForm->addMedia($img);
+                }
+
+                /*
                 if ($imageFile) {
                     // Créer un nom pour le fichier
                     $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -178,6 +202,7 @@ class TrickController extends AbstractController
                     // instead of its contents
                     $createForm->setImage($newFilename);
                 }
+                */
 
 
                 $this->entityManager->persist($createForm);
@@ -202,6 +227,7 @@ class TrickController extends AbstractController
         return $this->render('Trick/create/index.html.twig', [
             'create_form' => $form->createView()
         ]);
+        
     }
 
 
@@ -211,13 +237,23 @@ class TrickController extends AbstractController
      */
     public function delete(Trick $trick): Response
     {
-        // Pas besoin de check si user existe car route securisé avec IS_AUTHENTICATED_FULLY
-
         // Mon formulaire de modification de trick
         $this->entityManager->remove($trick);
         $this->entityManager->flush();
 
         return $this->redirectToRoute('app_home');
 
+    }
+
+
+    /**
+     * @Route("/trick/delete/image/{id}", name="app_delete_image")
+     */
+    public function deleteImage(Medias $medias): Response
+    {   
+        $this->entityManager->remove($medias);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_home');
     }
 }

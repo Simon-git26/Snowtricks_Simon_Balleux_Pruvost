@@ -13,7 +13,12 @@
                                 
                     <div class="card mt-5">
                         <!-- Image Trick-->
-                        <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ trick.image|e }}" alt="Card image cap">
+                        {% if trick.medias.first %}
+                            {% set media = trick.medias.getValues[0] %}
+                            <div>
+                                <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ media.name|e }}" alt="" style="width: 100%;height:12rem;">
+                            </div>
+                        {% endif %}
 
 
                         <!-- Card Body -->
@@ -33,21 +38,50 @@
 
                             <hr>
                         
-                            <!--************** Image et Vidéo du Trick *************-->
-                            <div class="row d-none d-lg-flex load-media">
+                            
 
-                                <!-- Image du trick -->
-                                <div class="col-lg-6 col-md-12 mb-4">
-                                    <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ trick.image|e }}" alt="Card image cap">
-                                    {{ form_row(edit_form.image) }}
-                                </div> 
-                                
-                                <!-- Video du trick -->
-                                <div class="col-lg-6 col-md-12 mb-4">
-                                    <iframe class="w-100 h-75" src="{{ trick.video|e }}"></iframe>
-                                    {{ form_row(edit_form.video) }}
-                                </div>                                             
-                            </div>  
+                            <!--************** Image et Vidéo du Trick *************-->
+                            {% for media in trick.medias %}
+                                <!--************** Image et Vidéo du Trick *************-->
+                                <div class="row d-none d-lg-flex load-media">
+
+                                    <!-- Image du trick -->
+                                    <div class="col-lg-6 col-md-12 mb-4">
+                                        <div>
+                                            <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ media.name|e }}" alt="" style="width: 100%;height:12rem;">
+                                        </div>
+                                    </div>  
+
+
+
+                                    <div class="col-lg-6 col-md-12 mb-4">
+                                        <div>
+                                           <!-- Passer l'id et le titre en slug pour une url correcte  -->
+                                            <a href="{{ path('app_delete_image', {'id': media.id}) }}" class="btn btn-primary">
+                                                Supprimer cette image ?
+                                            </a>
+                                            <input type="hidden" value={{media.id}}/>    
+                                        </div>
+                                    </div>                                    
+                                </div>
+   
+                            {% endfor %}
+
+                            <div class="col-lg-6 col-md-12 mb-4">
+                                <div>
+                                    {{ form_row(edit_form.medias) }}  
+                                </div>
+                            </div> 
+                            
+                            
+
+
+
+                            <!-- Video du trick -->
+                            <div class="col-lg-6 col-md-12 mb-4">
+                                <iframe class="w-100 h-75" src="{{ trick.video|e }}"></iframe>
+                                {{ form_row(edit_form.video) }}
+                            </div>   
 
 
                             <!-- Bouton Masquer et Afficher les medias-->
