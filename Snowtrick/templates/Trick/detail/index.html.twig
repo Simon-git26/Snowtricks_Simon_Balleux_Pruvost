@@ -19,8 +19,15 @@
 
                  
 
-                        
-                        <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ trick.image|e }}" alt="Card image cap">
+                        <!-- Image Trick-->
+                        {% if trick.medias.first %}
+                            {% set media = trick.medias.getValues[0] %}
+                            <div>
+                                <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ media.name|e }}" alt="" style="width: 100%;height:12rem;">
+                            </div>
+                        {% endif %}
+
+                
 
 
                         <!-- Card Body -->
@@ -46,10 +53,18 @@
                             <!--************** Image et Vidéo du Trick *************-->
                             <div class="row d-none d-lg-flex load-media">
 
-                                <!-- Image du trick -->
-                                <div class="col-lg-6 col-md-12 mb-4">
-                                    <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ trick.image|e }}" alt="Card image cap">
-                                </div> 
+
+                                <!--************** Image et Vidéo du Trick *************-->
+                                {% for media in trick.medias %}
+                                    <!--************** Image et Vidéo du Trick *************-->
+                                        <!-- Image du trick -->
+                                        <div class="col-lg-6 col-md-12 mb-4">
+                                            <div>
+                                                <img class="card-img-top" src="{{ asset('uploads/image_user/') }}{{ media.name|e }}" alt="" style="width: 100%;height:12rem;">
+                                            </div>
+                                        </div>                                
+                                {% endfor %}
+
                                 
                                 <!-- Video du trick -->
                                 <div class="col-lg-6 col-md-12 mb-4">
