@@ -66,7 +66,7 @@ class TrickController extends AbstractController
 
 
         // Envoyer mes données à ma vue
-        return $this->render('detail/index.html.twig', [
+        return $this->render('Trick/detail/index.html.twig', [
             'trick' => $trick,
             'comment_form' => $form->createView(),
             'comments' => $comments
@@ -81,16 +81,77 @@ class TrickController extends AbstractController
      */
     public function edit(Trick $trick,SluggerInterface $slugger, Request $request): Response
     {
-        // Savoir si le user est authentifié ou non
-        $userConnected = null !== $this->getUser();
+       // Pas besoin de check si user existe car route securisé avec IS_AUTHENTICATED_FULLY 
 
-        if ($userConnected) {
+        $form = $this->createForm(TrickType::class, $trick);
+        $form->handleRequest($request);
+        
 
-            $form = $this->createForm(TrickType::class, $trick);
-            $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Image uploader //
+            /* Recuperer ma propriete image */
+            $imageFile = $form->get('image')->getData();
+
+            if ($imageFile) {
+
+                // Je genere un nouveau nom de fichier
+                $fichier = md5(uniqid()) . '.' . $imageFile->guessExtension();
+
+                // Je copie le fichier dans le dossier uploads
+                $imageFile->move(
+                    $this->getParameter('image_user'),
+                    $fichier
+                );
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $trick->setImage($fichier);
+            }
+
+            $this->entityManager->persist($trick);
+            $this->entityManager->flush();
             
+            // Changer la route plus tard pour /detail/{id}
+            return $this->redirectToRoute('app_home');
+        }
 
-            if ($form->isSubmitted() && $form->isValid()) {
+        return $this->render('Trick/edit/index.html.twig', [
+            'trick' => $trick,
+            'edit_form' => $form->createView()
+        ]); 
+    }
+
+
+    /**
+     ****************************************** Fonction pour Ajouter un Trick **********************
+     * @Route("/trick/add", name="app_create")
+     */
+    public function add(Request $request, SluggerInterface $slugger): Response
+    {
+        // Pas besoin de check si user existe car route securisé avec IS_AUTHENTICATED_FULLY
+
+        $session = new Session();
+
+        // Mon formulaire de modification de trick
+        $createForm = new Trick();
+
+        $form = $this->createForm(TrickType::class, $createForm);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            //dd($form->getData());
+            //dd($form->getErrors());
+            //dd($form->getErrors(true));
+            if($form->isValid()) {
+
+                // Attribué la date de la creation
+                $date= new \DateTime;
+                $createForm->setDateCreate($date);
+
+                // Récupérer l'id du user connecté
+                $userConnected = $this->getUser();
+                $createForm->setUser($userConnected);
+                
                 // Image uploader //
                 /* Recuperer ma propriete image */
                 $imageFile = $form->get('image')->getData();
@@ -99,7 +160,7 @@ class TrickController extends AbstractController
                     // Créer un nom pour le fichier
                     $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                     // Une fois le servide slugger injecté en debut de fonction, on peut s'en servir
-                    $safeFilename = $this->$slugger->slug($originalFilename);
+                    $safeFilename = $slugger->slug($originalFilename);
                     // Recuperer le nouveau filename qu'il vient de créer, avec son id et son extension
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
 
@@ -115,112 +176,32 @@ class TrickController extends AbstractController
 
                     // updates the 'brochureFilename' property to store the PDF file name
                     // instead of its contents
-                    $trick->setImage($newFilename);
+                    $createForm->setImage($newFilename);
                 }
 
-                $this->entityManager->persist($trick);
+
+                $this->entityManager->persist($createForm);
                 $this->entityManager->flush();
-                
+
+                // Ajouter le message de succès à la variable de session
+                $session->getFlashBag()->add('success', 'Votre trick a été créé avec succès.');
+
+
                 // Changer la route plus tard pour /detail/{id}
                 return $this->redirectToRoute('app_home');
+            } else {
+                // Traitement en cas d'erreur
+                // Ajoutez un message flash pour indiquer l'erreur
+                $this->addFlash('error', 'Une erreur s\'est produite lors de la soumission du formulaire.');
+    
+                return $this->redirectToRoute('app_home'); // Redirection vers la page d'erreur
             }
-
-            return $this->render('edit/index.html.twig', [
-                'trick' => $trick,
-                'edit_form' => $form->createView()
-            ]);
-        }
-
-        
-    }
-
-
-    /**
-     ****************************************** Fonction pour Ajouter un Trick **********************
-     * @Route("/trick/add", name="app_create")
-     */
-    public function add(Request $request, SluggerInterface $slugger): Response
-    {
-        // Set une variable isConnected pour verifier si un user est connecté
-        $userConnected = null !== $this->getUser();
-
-        if ($userConnected) {
-            $session = new Session();
-
-            // Mon formulaire de modification de trick
-            $createForm = new Trick();
-
-            $form = $this->createForm(TrickType::class, $createForm);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted()) {
-                //dd($form->getData());
-                //dd($form->getErrors());
-                //dd($form->getErrors(true));
-                if($form->isValid()) {
-
-                    // Attribué la date de la creation
-                    $date= new \DateTime;
-                    $createForm->setDateCreate($date);
-
-                    // Récupérer l'id du user connecté
-                    $userConnected = $this->getUser();
-                    $createForm->setUser($userConnected);
-                    
-                    // Image uploader //
-                    /* Recuperer ma propriete image */
-                    $imageFile = $form->get('image')->getData();
-
-                    if ($imageFile) {
-                        // Créer un nom pour le fichier
-                        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                        // Une fois le servide slugger injecté en debut de fonction, on peut s'en servir
-                        $safeFilename = $slugger->slug($originalFilename);
-                        // Recuperer le nouveau filename qu'il vient de créer, avec son id et son extension
-                        $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
-
-                        try {
-                            // Stocke le fichier au niveau du dossier selectionné ici
-                            $imageFile->move(
-                                $this->getParameter('image_user'),
-                                $newFilename
-                            );
-                        } catch (FileException $e) {
-                            // ... handle exception if something happens during file upload
-                        }
-
-                        // updates the 'brochureFilename' property to store the PDF file name
-                        // instead of its contents
-                        $createForm->setImage($newFilename);
-                    }
-
-
-                    $this->entityManager->persist($createForm);
-                    $this->entityManager->flush();
-
-                    // Ajouter le message de succès à la variable de session
-                    $session->getFlashBag()->add('success', 'Votre trick a été créé avec succès.');
-
-
-                    // Changer la route plus tard pour /detail/{id}
-                    return $this->redirectToRoute('app_home');
-                } else {
-                    // Traitement en cas d'erreur
-                    // Ajoutez un message flash pour indiquer l'erreur
-                    $this->addFlash('error', 'Une erreur s\'est produite lors de la soumission du formulaire.');
-        
-                    return $this->redirectToRoute('app_home'); // Redirection vers la page d'erreur
-                }
-            }
-
-
-            return $this->render('create/index.html.twig', [
-                'create_form' => $form->createView()
-            ]);
         }
 
 
-        
+        return $this->render('Trick/create/index.html.twig', [
+            'create_form' => $form->createView()
+        ]);
     }
 
 
@@ -230,6 +211,8 @@ class TrickController extends AbstractController
      */
     public function delete(Trick $trick): Response
     {
+        // Pas besoin de check si user existe car route securisé avec IS_AUTHENTICATED_FULLY
+
         // Mon formulaire de modification de trick
         $this->entityManager->remove($trick);
         $this->entityManager->flush();

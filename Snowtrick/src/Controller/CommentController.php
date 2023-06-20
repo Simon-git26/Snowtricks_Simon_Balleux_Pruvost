@@ -31,46 +31,43 @@ class CommentController extends AbstractController
     public function delete(ManagerRegistry $doctrine, int $id, Request $request): Response
     {
 
-        // Savoir si le user est authentifié ou non
-        $userConnected = null !== $this->getUser();
-
-        if ($userConnected) {
-            // Mon formulaire de modification de trick
-            $deleteComment = $doctrine->getRepository(Comment::class)->find($id);
-
-            $form = $this->createFormBuilder($deleteComment)
+        // Pas besoin de check si user existe car route securisé avec IS_AUTHENTICATED_FULLY
         
-            // Bouton submit
-            ->add('submit', SubmitType::class, [
-                'label' => 'Supprimer ce Commentaire ?',
-            ])
-            ->getForm();
+        // Mon formulaire de modification de trick
+        $deleteComment = $doctrine->getRepository(Comment::class)->find($id);
+
+        $form = $this->createFormBuilder($deleteComment)
+    
+        // Bouton submit
+        ->add('submit', SubmitType::class, [
+            'label' => 'Supprimer ce Commentaire ?',
+        ])
+        ->getForm();
 
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->entityManager->remove($deleteComment);
-                $this->entityManager->flush();
-                
-                // Changer la route plus tard pour /detail/{id}
-                return $this->redirectToRoute('app_home');
-            }
-
-
-            //Permet de recuperer mes données en BDD grace a mes method du Repository et de Doctrine ORM
-            $comment = $doctrine->getRepository(Comment::class)->find($id);
-
-            if (!$comment) {
-                echo "Aucun commentaire n'a était récupéré";
-                die();
-            }
-
-            return $this->render('delete_comment/index.html.twig', [
-                'controller_name' => 'CommentController',
-                'comment' => $comment,
-                'delete_comment' => $form->createView()
-            ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->remove($deleteComment);
+            $this->entityManager->flush();
+            
+            // Changer la route plus tard pour /detail/{id}
+            return $this->redirectToRoute('app_home');
         }
+
+
+        //Permet de recuperer mes données en BDD grace a mes method du Repository et de Doctrine ORM
+        $comment = $doctrine->getRepository(Comment::class)->find($id);
+
+        if (!$comment) {
+            echo "Aucun commentaire n'a était récupéré";
+            die();
+        }
+
+        return $this->render('Comment/delete_comment/index.html.twig', [
+            'controller_name' => 'CommentController',
+            'comment' => $comment,
+            'delete_comment' => $form->createView()
+        ]);
     }
 }

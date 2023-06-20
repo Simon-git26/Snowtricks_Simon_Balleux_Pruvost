@@ -213,6 +213,4 @@ class Trick
     }
 
 
-
-
 }
